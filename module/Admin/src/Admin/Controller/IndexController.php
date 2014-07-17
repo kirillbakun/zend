@@ -1,5 +1,7 @@
 <?php
     namespace Admin\Controller;
+
+    use Admin\Manager\ArticleManager;
     use Zend\Mvc\Controller\AbstractActionController;
     use Zend\View\Model\ViewModel;
 
@@ -7,18 +9,9 @@
     {
         public function indexAction()
         {
-            $em = $this->getServiceLocator()->get('doctrine.entitymanager.orm_default');
-            $qb = $em->createQueryBuilder();
-            $qb->add('select', 'a')
-                ->add('from', 'Admin\Entity\Article a')
-                ->add('where', 'a.id = :identifier')
-                ->setParameter('identifier', 1);
-            $query = $qb->getQuery();
-            $articles = $query->getResult();
-
-
-            //$articles = $em->getRepository('\Admin\Entity\Article')->findAll();
-
+            $entity_manager = $this->getServiceLocator()->get('Doctrine\ORM\EntityManager');
+            $article_manager = new ArticleManager($entity_manager);
+            $articles = $article_manager->getList();
 
             return new ViewModel(array('articles' => $articles));
         }
