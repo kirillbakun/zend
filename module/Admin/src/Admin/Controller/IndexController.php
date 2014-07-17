@@ -19,6 +19,7 @@
 
             //$articles = $em->getRepository('\Admin\Entity\Article')->findAll();
 
+
             return new ViewModel(array('articles' => $articles));
         }
     }
