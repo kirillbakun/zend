@@ -6,7 +6,7 @@
     abstract class AbstractManager
     {
         protected $entity_manager;
-        protected $appropriate_entity;
+        private $appropriate_entity;
 
         public function __construct(EntityManager $entity_manager)
         {
