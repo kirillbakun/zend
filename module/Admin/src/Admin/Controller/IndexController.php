@@ -13,7 +13,6 @@
             $article_manager = new ArticleManager($entity_manager);
             $articles = $article_manager->getList();
 
-
             return new ViewModel(array('articles' => $articles));
         }
     }
