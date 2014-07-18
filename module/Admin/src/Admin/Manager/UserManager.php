@@ -3,4 +3,3 @@
 
     class UserManager extends AbstractManager
     {}
-?>

@@ -12,28 +12,19 @@
         {
             $this->entity_manager = $entity_manager;
             $class_name = get_called_class();
-            $this->appropriate_entity = str_replace('Manager', '', explode('\\', $class_name)[2]);
+            $this->appropriate_entity = 'Admin\Entity\\' .str_replace('Manager', '', explode('\\', $class_name)[2]);
         }
+
+        public function setEntityManager(EntityManager $entity_manage)
+        {}
 
         public function getOneById($id)
         {
-            $query_builder = $this->entity_manager->createQueryBuilder();
-            $query_builder->add('select', 'e')
-                ->add('from', 'Admin\Entity\\' .$this->appropriate_entity .' e')
-                ->add('where', 'e.id = :identifier')
-                ->setParameter('identifier', (int)$id);
-            $query = $query_builder->getQuery();
-
-            return $query->getResult();
+            return $this->entity_manager->getRepository($this->appropriate_entity)->findBy(array('id' => (int)$id));
         }
 
         public function getList()
         {
-            $query_builder = $this->entity_manager->createQueryBuilder();
-            $query_builder->add('select', 'e')
-                ->add('from', 'Admin\Entity\\' .$this->appropriate_entity .' e');
-            $query = $query_builder->getQuery();
-
-            return $query->getResult();
+            return $this->entity_manager->getRepository($this->appropriate_entity)->findAll();
         }
     }
