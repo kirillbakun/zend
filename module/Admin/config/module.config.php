@@ -17,6 +17,7 @@
         'controllers' => array(
             'invokables' => array(
                 'Admin\Controller\Index' => 'Admin\Controller\IndexController',
+                'Admin\Controller\Article' => 'Admin\Controller\ArticleController',
             ),
         ),
         'router' => array(
@@ -34,14 +35,16 @@
                     'may_terminate' => true,
                     'child_routes' => array(
                         'default' => array(
-                            'type'    => 'Segment',
+                            'type' => 'Segment',
                             'options' => array(
-                                'route'    => '/[:controller[/:action]]',
+                                'route' => '/[:controller[/:action[/:id]]]',
                                 'constraints' => array(
                                     'controller' => '[a-zA-Z][a-zA-Z0-9_-]*',
-                                    'action'     => '[a-zA-Z][a-zA-Z0-9_-]*',
+                                    'action' => '[a-zA-Z][a-zA-Z0-9_-]*',
+                                    'id' => '[0-9]+',
                                 ),
-                                'defaults' => array(),
+                                'defaults' => array(
+                                ),
                             ),
                         ),
                     ),

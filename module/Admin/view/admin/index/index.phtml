@@ -4,4 +4,9 @@
     <?php /*endforeach; */?>
 </ul>-->
 
-<a href="/add">Add article</a>
+<?php /*echo $this->url('admin/article'); */?><!--
+<br/>-->
+<?php /*echo $this->url('admin/article/add'); */?><!--
+<br/>-->
+
+<a href="<?php echo $this->url('admin/default', array('controller' => 'article')); ?>">Articles</a>
