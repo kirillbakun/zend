@@ -1,17 +1,39 @@
 <?php
     /**
-     * @var Admin\Controller\ArticleController $this;
+     * @var Admin\Form\ArticleForm $form;
      */
 ?>
 
-<!--<section class="add-new-article">
+<section class="add-new-article">
     <h2>Add new article</h2>
 
+    <?php if($this->error): ?>
+        <p class="error">Error</p>
+    <?php endif; ?>
+
     <?php
-/*        $form = $this->form;
+        $form = $this->form;
         $form->prepare();
+        $form->setAttribute('action', $this->url('admin/default', array('controller' => 'article', 'action' => 'insert')));
 
-    */?>
-</section>-->
+        echo $this->form()->openTag($form);
+    ?>
 
-<h2>Add new article</h2>
+    <dl class="add-article-form">
+        <dt><?php echo $this->formLabel($form->get('text')); ?></dt>
+        <dd>
+            <?php echo $this->formElement($form->get('text')); ?>
+            <?php echo $this->formElementErrors($form->get('text')); ?>
+        </dd>
+
+        <dt><?php echo $this->formLabel($form->get('user_id')); ?></dt>
+        <dd><?php echo $this->formElement($form->get('user_id')); ?></dd>
+
+        <dd>
+            <?php echo $this->formElement($form->get('submit')); ?>
+            <?php echo $this->formElementErrors($form->get('submit')); ?>
+        </dd>
+    </dl>
+
+    <?php echo $this->form()->closeTag(); ?>
+</section>

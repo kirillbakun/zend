@@ -1,1 +1,16 @@
+<?php
+    /**
+     * @var Admin\Entity\Article[] $articles;
+     * @var Admin\Entity\Article $article;
+     */
+?>
+
+<h2>Articles list</h2>
 <a href="<?php echo $this->url('admin/default', array('controller' => 'article', 'action' => 'add')) ?>">Add new article</a>
+
+<br/><br/>
+<ul>
+    <?php foreach($articles as $article): ?>
+        <li><?php echo $article->id .' - ' .$article->text .' - ' .$article->user->name; ?></li>
+    <?php endforeach; ?>
+</ul>

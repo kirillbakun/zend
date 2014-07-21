@@ -10,7 +10,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table(name="article", indexes={@ORM\Index(name="user_id", columns={"user_id"})})
  * @ORM\Entity
  */
-class Article
+class Article extends AbstractEntity
 {
     /**
      * @var integer
@@ -22,9 +22,16 @@ class Article
     private $id;
 
     /**
+     * @var boolean
+     *
+     * @ORM\Column(name="published", type="boolean", nullable=true)
+     */
+    private $published;
+
+    /**
      * @var string
      *
-     * @ORM\Column(name="text", type="text", nullable=true)
+     * @ORM\Column(name="text", type="string", length=255, nullable=true)
      */
     private $text;
 
@@ -48,6 +55,29 @@ class Article
     public function getId()
     {
         return $this->id;
+    }
+
+    /**
+     * Set published
+     *
+     * @param boolean $published
+     * @return Article
+     */
+    public function setPublished($published)
+    {
+        $this->published = $published;
+
+        return $this;
+    }
+
+    /**
+     * Get published
+     *
+     * @return boolean 
+     */
+    public function getPublished()
+    {
+        return $this->published;
     }
 
     /**

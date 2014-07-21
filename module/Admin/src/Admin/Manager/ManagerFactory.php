@@ -10,4 +10,3 @@
             return class_exists($class_name) ? new $class_name() : null;
         }
     }
-?>
