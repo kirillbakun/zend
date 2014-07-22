@@ -9,15 +9,6 @@
     {
         public function indexAction()
         {
-            /*$entity_manager = $this->getServiceLocator()->get('Doctrine\ORM\EntityManager');
-            $article_manager = new ArticleManager($entity_manager);
-            $articles = $article_manager->getList();
-
-            return new ViewModel(array('articles' => $articles));*/
-
             return new ViewModel();
         }
-
-        public function AddAction()
-        {}
     }

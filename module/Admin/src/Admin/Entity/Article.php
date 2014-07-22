@@ -24,9 +24,9 @@ class Article extends AbstractEntity
     /**
      * @var boolean
      *
-     * @ORM\Column(name="published", type="boolean", nullable=true)
+     * @ORM\Column(name="is_active", type="boolean", nullable=true)
      */
-    private $published;
+    private $isActive;
 
     /**
      * @var string
@@ -58,26 +58,26 @@ class Article extends AbstractEntity
     }
 
     /**
-     * Set published
+     * Set isActive
      *
-     * @param boolean $published
+     * @param boolean $isActive
      * @return Article
      */
-    public function setPublished($published)
+    public function setIsActive($isActive)
     {
-        $this->published = $published;
+        $this->isActive = $isActive;
 
         return $this;
     }
 
     /**
-     * Get published
+     * Get isActive
      *
      * @return boolean 
      */
-    public function getPublished()
+    public function getIsActive()
     {
-        return $this->published;
+        return $this->isActive;
     }
 
     /**

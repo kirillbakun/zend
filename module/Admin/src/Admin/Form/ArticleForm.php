@@ -1,43 +1,59 @@
 <?php
     namespace Admin\Form;
 
+    use Admin\Helper\SelectHelper;
     use Zend\Form\Form;
 
     class ArticleForm extends Form
     {
-        public function __construct($name = null, $options = array())
+        protected $entity_manager;
+
+        public function __construct($name = null, $options)
         {
+            $this->entity_manager = $options['entity_manager'];
+
             parent::__construct('Article');
             $this->setAttribute('method', 'post');
 
             $this->add(array(
+                'name' => 'id',
+                'type' => 'Zend\Form\Element\Hidden',
+            ));
+
+            $this->add(array(
                 'name' => 'text',
-                'attributes' => array(
-                    'type' => 'text',
-                ),
+                'type' => 'Zend\Form\Element\Text',
                 'options' => array(
                     'label' => 'Article text',
                 ),
             ));
 
-            $user_options = array();
-            foreach($options['users'] as $user) {
-                $user_options[$user->id] = $user->name;
-            }
             $this->add(array(
-                'name' => 'user_id',
+                'name' => 'userId',
                 'type' => 'Zend\Form\Element\Select',
                 'options' => array(
                     'label' => 'User',
-                    'value_options' => $user_options,
+                    'value_options' => SelectHelper::getUsersData($this->entity_manager),
                     'disable_inarray_validator' => true,
                 ),
             ));
 
             $this->add(array(
-                'name' => 'submit',
+                'name' => 'isActive',
+                'type' => 'Zend\Form\Element\Checkbox',
                 'attributes' => array(
-                    'type' => 'submit',
+                    'checked' => true,
+                ),
+                'options' => array(
+                    'label' => 'Published',
+                ),
+
+            ));
+
+            $this->add(array(
+                'name' => 'submit',
+                'type' => 'Zend\Form\Element\Submit',
+                'attributes' => array(
                     'value' => 'Save',
                 ),
             ));

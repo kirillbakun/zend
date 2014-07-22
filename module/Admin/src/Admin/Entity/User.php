@@ -5,6 +5,10 @@ namespace Admin\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
+ * @property $name string
+ */
+
+/**
  * User
  *
  * @ORM\Table(name="user")
@@ -20,6 +24,13 @@ class User extends AbstractEntity
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
     private $id;
+
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(name="is_active", type="boolean", nullable=true)
+     */
+    private $isActive;
 
     /**
      * @var string
@@ -38,6 +49,29 @@ class User extends AbstractEntity
     public function getId()
     {
         return $this->id;
+    }
+
+    /**
+     * Set isActive
+     *
+     * @param boolean $isActive
+     * @return User
+     */
+    public function setIsActive($isActive)
+    {
+        $this->isActive = $isActive;
+
+        return $this;
+    }
+
+    /**
+     * Get isActive
+     *
+     * @return boolean 
+     */
+    public function getIsActive()
+    {
+        return $this->isActive;
     }
 
     /**

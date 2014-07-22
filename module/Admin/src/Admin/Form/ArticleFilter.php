@@ -1,12 +1,18 @@
 <?php
     namespace Admin\Form;
 
+    use Admin\Helper\SelectHelper;
+    use Doctrine\ORM\EntityManager;
     use Zend\InputFilter\InputFilter;
 
     class ArticleFilter extends InputFilter
     {
-        public function __construct()
+        protected $entity_manager;
+
+        public function __construct(EntityManager $entity_manager)
         {
+            $this->entity_manager = $entity_manager;
+
             $this->add(array(
                 'name' => 'text',
                 'required' => true,
@@ -28,12 +34,12 @@
             ));
 
             $this->add(array(
-                'name' => 'user_id',
+                'name' => 'userId',
                 'validators' => array(
                     array(
                         'name' => 'InArray',
                         'options' => array(
-                            'haystack' => array(6),
+                            'haystack' => SelectHelper::getUsersFilter($this->entity_manager),
                             'messages' => array(
                                 'notInArray' => 'Select right user',
                             ),

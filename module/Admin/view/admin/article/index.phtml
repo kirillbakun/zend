@@ -11,6 +11,9 @@
 <br/><br/>
 <ul>
     <?php foreach($articles as $article): ?>
-        <li><?php echo $article->id .' - ' .$article->text .' - ' .$article->user->name; ?></li>
+        <li>
+            <?php echo $article->id .' - ' .$article->text .' | '; ?>
+            <a href="<?php echo $this->url('admin/default', array('controller' => 'article', 'action' => 'edit', 'id' => $article->id)) ?>">Edit</a>
+        </li>
     <?php endforeach; ?>
 </ul>
