@@ -18,6 +18,7 @@
             'invokables' => array(
                 'Admin\Controller\Index' => 'Admin\Controller\IndexController',
                 'Admin\Controller\Article' => 'Admin\Controller\ArticleController',
+                'Admin\Controller\Ajax' => 'Admin\Controller\AjaxController',
             ),
         ),
         'router' => array(
@@ -54,6 +55,9 @@
         'view_manager' => array(
             'template_path_stack' => array(
                 'admin' => __DIR__ .'/../view',
+            ),
+            'strategies' => array(
+                'ViewJsonStrategy',
             ),
         ),
     );

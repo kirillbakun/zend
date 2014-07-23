@@ -65,4 +65,18 @@
         {
             return $this->entity_manager->getRepository($this->appropriate_entity)->findBy(array($active_flag_name => 1));
         }
+
+        public function deleteOneById($id)
+        {
+            $entity = $this->getOneById($id);
+
+            if($entity) {
+                $this->entity_manager->remove($entity);
+                $this->entity_manager->flush();
+
+                return true;
+            }
+
+            return false;
+        }
     }
