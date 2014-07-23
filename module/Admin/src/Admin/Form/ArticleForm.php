@@ -41,11 +41,10 @@
             $this->add(array(
                 'name' => 'isActive',
                 'type' => 'Zend\Form\Element\Checkbox',
-                'attributes' => array(
-                    'checked' => true,
-                ),
                 'options' => array(
                     'label' => 'Published',
+                    'checked_value' => true,
+                    'unchecked_value' => null,
                 ),
 
             ));

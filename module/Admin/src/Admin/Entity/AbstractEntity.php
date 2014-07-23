@@ -22,4 +22,11 @@
 
             return null;
         }
+
+        public function __isset($property)
+        {
+            $method = 'get' .ucfirst($property);
+
+            return method_exists($this, $method);
+        }
     }

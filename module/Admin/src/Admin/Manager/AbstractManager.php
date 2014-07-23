@@ -1,6 +1,7 @@
 <?php
     namespace Admin\Manager;
 
+    use Admin\Entity\AbstractEntity;
     use Doctrine\ORM\EntityManager;
 
     abstract class AbstractManager
@@ -16,9 +17,43 @@
 
         }
 
+        protected function populateEntity(AbstractEntity $entity, $data, $fields)
+        {
+            foreach($fields['fields'] as $field) {
+                if(isset($entity->$field)) {
+                    $entity->$field = (isset($data[$field]) && $data[$field]) ? $data[$field] : null;
+                }
+            }
+
+            return $entity;
+        }
+
+        protected function populateArray(AbstractEntity $entity, $data, $fields)
+        {
+            foreach($fields as $part => $fields_group) {
+                if($part == 'fk') {
+                    continue;
+                }
+
+                foreach($fields[$part] as $field) {
+                    if(isset($entity->$field)) {
+                        $data[$field] = $entity->$field;
+                    }
+                }
+            }
+
+            foreach($fields['fk'] as $key => $field) {
+                if(isset($entity->$field)) {
+                    $data[$key] = $entity->$field->id;
+                }
+            }
+
+            return $data;
+        }
+
         public function getOneById($id)
         {
-            return $this->entity_manager->find('Admin\Entity\User', (int)$id);
+            return $this->entity_manager->find($this->appropriate_entity, (int)$id);
         }
 
         public function getList()
