@@ -7,7 +7,7 @@
     abstract class AbstractManager
     {
         protected $entity_manager;
-        private $appropriate_entity;
+        protected $appropriate_entity;
 
         public function __construct(EntityManager $entity_manager)
         {
@@ -44,7 +44,7 @@
 
             foreach($fields['fk'] as $key => $field) {
                 if(isset($entity->$field)) {
-                    $data[$key] = $entity->$field->id;
+                    $data[$key] = isset($entity->$field->id) ? $entity->$field->id : null;
                 }
             }
 
@@ -79,4 +79,7 @@
 
             return false;
         }
+
+        public abstract function insert($data);
+        public abstract function update($data);
     }

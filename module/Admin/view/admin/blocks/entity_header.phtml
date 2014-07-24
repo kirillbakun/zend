@@ -1,0 +1,20 @@
+<?php
+    /**
+     * @var \Admin\Entity\Entity $entity;
+     */
+?>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="list-header">
+            <a href="<?php echo $this->url('admin/default', array(
+                'controller' => 'crud',
+                'table' => $entity->name,
+                'action' => 'add',
+            )); ?>" class="btn btn-primary" role="button">
+                Add new <?php echo $entity->name; ?>
+            </a>
+            <h2><?php echo ucfirst($entity->pluralName); ?></h2>
+        </div>
+    </div>
+</div>

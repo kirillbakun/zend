@@ -15,7 +15,11 @@
     <?php
         $form = $this->form;
         $form->prepare();
-        $form->setAttribute('action', $this->url('admin/default', array('controller' => 'article', 'action' => $action)));
+        $form->setAttribute('action', $this->url('admin/default', array(
+            'controller' => 'crud',
+            'table' => 'article',
+            'action' => $action,
+        )));
 
         echo $this->form()->openTag($form);
     ?>

@@ -1,7 +1,7 @@
 <?php
     namespace Admin\Manager;
 
-    class UserManager extends AbstractManager
+    class FieldsListManager extends AbstractManager
     {
         public function insert($data)
         {}

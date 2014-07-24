@@ -1,0 +1,19 @@
+/*Admin table*/
+i, i a, i a:hover {color: #808080;}
+
+.actions a,
+.actions > i {
+    margin-left: 10px;
+}
+
+.actions .fa.fa-arrow-left {display: none;}
+.actions .fa.fa-trash-o:hover,
+.actions .fa.fa-arrow-left:hover {
+    cursor: pointer;
+}
+.actions a.red {display: none;}
+.actions a.red i {color: #ff3434;}
+
+.list-header {padding-bottom: 25px;}
+.list-header a {float: left;}
+.list-header h2 {text-align: center;}

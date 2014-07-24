@@ -1,0 +1,15 @@
+<?php
+    /**
+     * @var \Admin\Entity\Entity[] $entities;
+     * @var \Admin\Entity\Entity $entity;
+     */
+?>
+
+<?php foreach($entities as $entity): ?>
+    <a href="<?php echo $this->url('admin/default', array(
+        'controller' => 'crud',
+        'table' => $entity->name,
+    )); ?>">
+        <?php echo ucfirst($entity->pluralName); ?>
+    </a>
+<?php endforeach; ?>

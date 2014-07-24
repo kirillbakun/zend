@@ -17,6 +17,7 @@
         'controllers' => array(
             'invokables' => array(
                 'Admin\Controller\Index' => 'Admin\Controller\IndexController',
+                'Admin\Controller\Crud' => 'Admin\Controller\CrudController',
                 'Admin\Controller\Article' => 'Admin\Controller\ArticleController',
                 'Admin\Controller\Ajax' => 'Admin\Controller\AjaxController',
             ),
@@ -38,7 +39,7 @@
                         'default' => array(
                             'type' => 'Segment',
                             'options' => array(
-                                'route' => '/[:controller[/:action[/:id]]]',
+                                'route' => '/[:controller[/:table[/:action[/:id]]]]',
                                 'constraints' => array(
                                     'controller' => '[a-zA-Z][a-zA-Z0-9_-]*',
                                     'action' => '[a-zA-Z][a-zA-Z0-9_-]*',

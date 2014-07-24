@@ -3,6 +3,7 @@
 
     use Admin\Entity\AbstractEntity;
     use Admin\Entity\Article;
+    use Doctrine\ORM\Query\ResultSetMapping;
 
     class ArticleManager extends AbstractManager
     {
@@ -30,6 +31,8 @@
                 if($user) {
                     $entity->user = $user;
                 }
+            } else {
+                $entity->user = null;
             }
 
             return $entity;
@@ -45,7 +48,7 @@
             return $data;
         }
 
-        public function insertArticle($data)
+        public function insert($data)
         {
             $article = new Article();
             $this->populateEntity($article, $data, $this->fields);
@@ -56,7 +59,7 @@
             return $article->id;
         }
 
-        public function updateArticle($data)
+        public function update($data)
         {
             $article = $this->getOneById($data['id']);
             if($article) {

@@ -65,7 +65,7 @@
             }
 
             $article_manager = new ArticleManager($entity_manager);
-            $article_manager->insertArticle($form->getData());
+            $article_manager->insert($form->getData());
 
             return $this->redirect()->toRoute('admin/default', array(
                 'controller' => 'article',
@@ -131,7 +131,7 @@
             }
 
             $article_manager = new ArticleManager($entity_manager);
-            $article_manager->updateArticle($form->getData());
+            $article_manager->update($form->getData());
 
             return $this->redirect()->toRoute('admin/default', array(
                 'controller' => 'article',

@@ -1,0 +1,61 @@
+<?php
+    /**
+     * @var \Admin\Entity\Entity[] $list;
+     * @var \Admin\Entity\Entity $current_entity;
+     * @var \Admin\Entity\FieldsList[] $fields_list;
+     * @var \Admin\Entity\FieldsList $fields_item;
+     */
+?>
+
+<?php echo $this->partial('admin/blocks/entity_header.phtml', array(
+    'entity' => $current_entity,
+)); ?>
+
+<div class="row">
+    <div class="col-md-2">
+        <?php echo $this->partial('admin/blocks/entities_list.phtml', array(
+            'entities' => $list,
+        )); ?>
+    </div>
+    <div class="col-md-10">
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th>id</th>
+                <?php foreach($fields_list as $fields_item): ?>
+                    <th><?php echo $fields_item->name; ?></th>
+                <?php endforeach; ?>
+                <th>Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            <?php foreach($entities as $entity): ?>
+                <tr>
+                    <td><?php echo $entity->id; ?></td>
+                    <td><?php echo $entity->text; ?></td>
+                    <td class="actions">
+                        <a href="<?php echo $this->url('admin/default', array(
+                            'controller' => 'crud',
+                            'table' => $current_entity->table,
+                            'action' => 'edit',
+                            'id' => $entity->id,
+                        )); ?>" class="edit">
+                            <i class="fa fa-pencil" title="Edit"></i>
+                        </a>
+                        <i class="fa fa-trash-o" title="Delete"></i>
+                        <a href="<?php echo $this->url('admin/default', array(
+                            'controller' => 'crud',
+                            'table' => $current_entity->table,
+                            'action' => 'delete',
+                            'id' => $entity->id,
+                        )); ?>" class="red">
+                            <i class="fa fa-times" title="Delete"></i>
+                        </a>
+                        <i class="fa fa-arrow-left" title="Cancel"></i>
+                    </td>
+                </tr>
+            <?php endforeach; ?>
+            </tbody>
+        </table>
+    </div>
+</div>

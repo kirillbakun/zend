@@ -5,12 +5,12 @@ namespace Admin\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * User
+ * Entity
  *
- * @ORM\Table(name="user")
+ * @ORM\Table(name="entity")
  * @ORM\Entity
  */
-class User extends AbstractEntity
+class Entity extends AbstractEntity
 {
     /**
      * @var integer
@@ -31,9 +31,23 @@ class User extends AbstractEntity
     /**
      * @var string
      *
+     * @ORM\Column(name="table", type="string", length=100, nullable=true)
+     */
+    private $table;
+
+    /**
+     * @var string
+     *
      * @ORM\Column(name="name", type="string", length=255, nullable=true)
      */
     private $name;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="plural_name", type="string", length=255, nullable=true)
+     */
+    private $pluralName;
 
 
 
@@ -51,7 +65,7 @@ class User extends AbstractEntity
      * Set isActive
      *
      * @param boolean $isActive
-     * @return User
+     * @return Entity
      */
     public function setIsActive($isActive)
     {
@@ -71,10 +85,33 @@ class User extends AbstractEntity
     }
 
     /**
+     * Set table
+     *
+     * @param string $table
+     * @return Entity
+     */
+    public function setTable($table)
+    {
+        $this->table = $table;
+
+        return $this;
+    }
+
+    /**
+     * Get table
+     *
+     * @return string 
+     */
+    public function getTable()
+    {
+        return $this->table;
+    }
+
+    /**
      * Set name
      *
      * @param string $name
-     * @return User
+     * @return Entity
      */
     public function setName($name)
     {
@@ -91,5 +128,28 @@ class User extends AbstractEntity
     public function getName()
     {
         return $this->name;
+    }
+
+    /**
+     * Set pluralName
+     *
+     * @param string $pluralName
+     * @return Entity
+     */
+    public function setPluralName($pluralName)
+    {
+        $this->pluralName = $pluralName;
+
+        return $this;
+    }
+
+    /**
+     * Get pluralName
+     *
+     * @return string 
+     */
+    public function getPluralName()
+    {
+        return $this->pluralName;
     }
 }
