@@ -8,10 +8,6 @@
 <section class="add-new-article">
     <h2>Add new article</h2>
 
-    <?php if($this->error): ?>
-        <p class="error">Error</p>
-    <?php endif; ?>
-
     <?php
         $form = $this->form;
         $form->prepare();
@@ -27,22 +23,29 @@
     <dl class="add-article-form">
         <?php echo $this->formElement($form->get('id')); ?>
 
-        <dt><?php echo $this->formLabel($form->get('text')); ?></dt>
-        <dd>
+        <?php $error_value = $this->formElementErrors($form->get('text')); ?>
+        <div class="form-group<?php echo ($error_value) ? ' has-error' : ''; ?>">
+            <?php echo $this->formLabel($form->get('text')); ?>
             <?php echo $this->formElement($form->get('text')); ?>
-            <?php echo $this->formElementErrors($form->get('text')); ?>
-        </dd>
 
-        <dt><?php echo $this->formLabel($form->get('userId')); ?></dt>
-        <dd><?php echo $this->formElement($form->get('userId')); ?></dd>
+            <?php if($error_value): ?>
+                <div class="alert alert-danger" role="alert">
+                    <?php echo $error_value; ?>
+                </div>
+            <?php endif; ?>
+        </div>
 
-        <dt><?php echo $this->formLabel($form->get('isActive')); ?></dt>
-        <dd><?php echo $this->formElement($form->get('isActive')); ?></dd>
+        <div class="from-group">
+            <?php echo $this->formLabel($form->get('userId')); ?>
+            <?php echo $this->formElement($form->get('userId')); ?>
+        </div>
 
-        <dd>
-            <?php echo $this->formElement($form->get('submit')); ?>
-            <?php echo $this->formElementErrors($form->get('submit')); ?>
-        </dd>
+        <div class="checkbox with-offset">
+            <?php echo $this->formElement($form->get('isActive')); ?>
+            <?php echo $this->formLabel($form->get('isActive')); ?>
+        </div>
+
+        <?php echo $this->formElement($form->get('submit')); ?>
     </dl>
 
     <?php echo $this->form()->closeTag(); ?>

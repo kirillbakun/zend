@@ -22,9 +22,13 @@
 
             $this->add(array(
                 'name' => 'text',
-                'type' => 'Zend\Form\Element\Text',
+                'type' => 'Zend\Form\Element\TextArea',
                 'options' => array(
                     'label' => 'Article text',
+                ),
+                'attributes' => array(
+                    'class' => 'form-control',
+                    'maxlength' => 255,
                 ),
             ));
 
@@ -36,6 +40,9 @@
                     'value_options' => SelectHelper::getUsersData($this->entity_manager),
                     'disable_inarray_validator' => true,
                 ),
+                'attributes' => array(
+                    'class' => 'form-control',
+                ),
             ));
 
             $this->add(array(
@@ -46,6 +53,9 @@
                     'checked_value' => true,
                     'unchecked_value' => null,
                 ),
+                'attributes' => array(
+                    'id' => 'isActive',
+                ),
 
             ));
 
@@ -54,6 +64,7 @@
                 'type' => 'Zend\Form\Element\Submit',
                 'attributes' => array(
                     'value' => 'Save',
+                    'class' => 'btn btn-primary with-offset save-button'
                 ),
             ));
         }

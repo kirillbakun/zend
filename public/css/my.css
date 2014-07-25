@@ -11,9 +11,14 @@ i, i a, i a:hover {color: #808080;}
 .actions .fa.fa-arrow-left:hover {
     cursor: pointer;
 }
-.actions a.red {display: none;}
-.actions a.red i {color: #ff3434;}
+.actions .hidden-link {display: none;}
+.red {color: #ff3434;}
+.green {color: #2ac800;}
 
 .list-header {padding-bottom: 25px;}
-.list-header a {float: left;}
-.list-header h2 {text-align: center;}
+.list-header a {float: left; width: 165px;}
+.list-header h2 {text-align: center}
+
+.alert.alert-danger {margin-top: 7px;}
+.with-offset {margin-top: 20px;}
+.save-button {min-width: 100px;}

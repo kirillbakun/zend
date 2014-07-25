@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50617
 File Encoding         : 65001
 
-Date: 2014-07-24 20:01:28
+Date: 2014-07-25 19:15:59
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -32,7 +32,7 @@ CREATE TABLE `article` (
 -- ----------------------------
 -- Records of article
 -- ----------------------------
-INSERT INTO `article` VALUES ('2', '1', null, 'text_2');
+INSERT INTO `article` VALUES ('2', '1', '1', 'text_23');
 INSERT INTO `article` VALUES ('3', '1', null, 'test artice');
 INSERT INTO `article` VALUES ('4', '3', '1', 'one more atricle');
 INSERT INTO `article` VALUES ('6', null, null, 'efqefwfewe');
@@ -51,12 +51,13 @@ CREATE TABLE `entity` (
   `name` varchar(255) DEFAULT NULL,
   `plural_name` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of entity
 -- ----------------------------
 INSERT INTO `entity` VALUES ('1', '1', 'article', 'article', 'articles');
+INSERT INTO `entity` VALUES ('2', '1', 'user', 'user', 'users');
 
 -- ----------------------------
 -- Table structure for `fields_list`
@@ -67,16 +68,21 @@ CREATE TABLE `fields_list` (
   `entity_id` int(11) DEFAULT NULL,
   `is_active` tinyint(1) DEFAULT NULL,
   `position` tinyint(1) DEFAULT NULL,
-  `name` varchar(100) DEFAULT NULL,
+  `type` varchar(20) DEFAULT NULL,
+  `display_name` varchar(100) DEFAULT NULL,
+  `entity_name` varchar(100) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `entity_id` (`entity_id`),
   CONSTRAINT `fields_list_ibfk_1` FOREIGN KEY (`entity_id`) REFERENCES `entity` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of fields_list
 -- ----------------------------
-INSERT INTO `fields_list` VALUES ('2', '1', '1', '2', 'Text');
+INSERT INTO `fields_list` VALUES ('2', '1', '1', '1', null, 'Text', 'text');
+INSERT INTO `fields_list` VALUES ('4', '2', '1', '1', null, 'Name', 'name');
+INSERT INTO `fields_list` VALUES ('5', '1', '1', '2', 'bool', 'Published', 'isActive');
+INSERT INTO `fields_list` VALUES ('6', '2', '1', '2', 'bool', 'Active', 'isActive');
 
 -- ----------------------------
 -- Table structure for `user`

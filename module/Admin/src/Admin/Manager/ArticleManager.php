@@ -3,7 +3,6 @@
 
     use Admin\Entity\AbstractEntity;
     use Admin\Entity\Article;
-    use Doctrine\ORM\Query\ResultSetMapping;
 
     class ArticleManager extends AbstractManager
     {

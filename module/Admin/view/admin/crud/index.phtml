@@ -4,6 +4,7 @@
      * @var \Admin\Entity\Entity $current_entity;
      * @var \Admin\Entity\FieldsList[] $fields_list;
      * @var \Admin\Entity\FieldsList $fields_item;
+     * @var int $current_page;
      */
 ?>
 
@@ -15,6 +16,7 @@
     <div class="col-md-2">
         <?php echo $this->partial('admin/blocks/entities_list.phtml', array(
             'entities' => $list,
+            'current_entity_name' => $current_entity->name,
         )); ?>
     </div>
     <div class="col-md-10">
@@ -23,7 +25,7 @@
             <tr>
                 <th>id</th>
                 <?php foreach($fields_list as $fields_item): ?>
-                    <th><?php echo $fields_item->name; ?></th>
+                    <th><?php echo $fields_item->displayName; ?></th>
                 <?php endforeach; ?>
                 <th>Actions</th>
             </tr>
@@ -32,7 +34,16 @@
             <?php foreach($entities as $entity): ?>
                 <tr>
                     <td><?php echo $entity->id; ?></td>
-                    <td><?php echo $entity->text; ?></td>
+                    <?php foreach($fields_list as $fields_item): ?>
+                        <?php $name = $fields_item->entityName; ?>
+                        <?php if($fields_item->type == 'bool'): ?>
+                            <?php echo $this->partial('admin/blocks/list_value_bool.phtml', array(
+                                'value' => $entity->$name,
+                            )); ?>
+                        <?php else: ?>
+                            <td><?php echo $entity->$name; ?></td>
+                        <?php endif; ?>
+                    <?php endforeach; ?>
                     <td class="actions">
                         <a href="<?php echo $this->url('admin/default', array(
                             'controller' => 'crud',
@@ -48,8 +59,8 @@
                             'table' => $current_entity->table,
                             'action' => 'delete',
                             'id' => $entity->id,
-                        )); ?>" class="red">
-                            <i class="fa fa-times" title="Delete"></i>
+                        )); ?>" class="hidden-link">
+                            <i class="fa fa-times red" title="Delete"></i>
                         </a>
                         <i class="fa fa-arrow-left" title="Cancel"></i>
                     </td>
@@ -57,5 +68,10 @@
             <?php endforeach; ?>
             </tbody>
         </table>
+
+        <?php $paginator_data = \Admin\Helper\PaginatorHelper::prepare(count($entities), $current_page, 1); ?>
+        <?php echo $this->partial('admin/blocks/paginator.phtml', array(
+            'data' => $paginator_data,
+        )); ?>
     </div>
 </div>

@@ -80,6 +80,15 @@
             return false;
         }
 
+        public function getCount()
+        {
+            $query_builder = $this->entity_manager->createQueryBuilder();
+            $query_builder->select($query_builder->expr()->count('e'))->from($this->appropriate_entity, 'e');
+            $query = $query_builder->getQuery();
+
+            return $query->getSingleScalarResult();
+        }
+
         public abstract function insert($data);
         public abstract function update($data);
     }

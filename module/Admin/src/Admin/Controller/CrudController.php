@@ -1,7 +1,6 @@
 <?php
     namespace Admin\Controller;
 
-    use Admin\Manager\ArticleManager;
     use Admin\Manager\EntityManager;
     use Admin\Manager\FieldsListManager;
     use Zend\Mvc\Controller\AbstractActionController;
@@ -11,7 +10,6 @@
     {
         public function indexAction()
         {
-
             $entity_manager = $this->getServiceLocator()->get('Doctrine\ORM\EntityManager');
             $table_name = $this->params()->fromRoute('table');
             $entity_name = 'Admin\\Manager\\' .ucfirst($table_name) .'Manager';
@@ -19,7 +17,7 @@
             $current_entity = $list_manager->getOneActiveByTable($table_name);
 
             if(!class_exists($entity_name) && $current_entity) {
-                $this->redirect()->toRoute('admin/default', array(
+                return $this->redirect()->toRoute('admin/default', array(
                     'controller' => 'index',
                 ));
             }
@@ -30,13 +28,16 @@
             $entities = $manager->getList();
 
             $fields_list_manager = new FieldsListManager($entity_manager);
-            $fields_list = $fields_list_manager->getActiveList();
+            $fields_list = $fields_list_manager->getListByEntityId($current_entity->id);
+
+            $current_page = $this->params()->fromQuery('afewfw');
 
             $view_model = new ViewModel(array(
                 'entities' => $entities,
                 'current_entity' => $current_entity,
                 'list' => $list,
                 'fields_list' => $fields_list,
+                'current_page' => ($current_page) ? $current_page : 1,
             ));
             $view_model->setTemplate('admin/crud/index');
 
@@ -50,7 +51,7 @@
             $form_name = 'Admin\\Form\\' .ucfirst($table_name) .'Form';
 
             if(!class_exists($form_name)) {
-                $this->redirect()->toRoute('admin/default', array(
+                return $this->redirect()->toRoute('admin/default', array(
                     'controller' => 'index',
                 ));
             }

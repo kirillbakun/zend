@@ -38,9 +38,23 @@ class FieldsList extends AbstractEntity
     /**
      * @var string
      *
-     * @ORM\Column(name="name", type="string", length=100, nullable=true)
+     * @ORM\Column(name="type", type="string", length=20, nullable=true)
      */
-    private $name;
+    private $type;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="display_name", type="string", length=100, nullable=true)
+     */
+    private $displayName;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="entity_name", type="string", length=100, nullable=true)
+     */
+    private $entityName;
 
     /**
      * @var \Admin\Entity\Entity
@@ -111,26 +125,72 @@ class FieldsList extends AbstractEntity
     }
 
     /**
-     * Set name
+     * Set type
      *
-     * @param string $name
+     * @param string $type
      * @return FieldsList
      */
-    public function setName($name)
+    public function setType($type)
     {
-        $this->name = $name;
+        $this->type = $type;
 
         return $this;
     }
 
     /**
-     * Get name
+     * Get type
      *
      * @return string 
      */
-    public function getName()
+    public function getType()
     {
-        return $this->name;
+        return $this->type;
+    }
+
+    /**
+     * Set displayName
+     *
+     * @param string $displayName
+     * @return FieldsList
+     */
+    public function setDisplayName($displayName)
+    {
+        $this->displayName = $displayName;
+
+        return $this;
+    }
+
+    /**
+     * Get displayName
+     *
+     * @return string 
+     */
+    public function getDisplayName()
+    {
+        return $this->displayName;
+    }
+
+    /**
+     * Set entityName
+     *
+     * @param string $entityName
+     * @return FieldsList
+     */
+    public function setEntityName($entityName)
+    {
+        $this->entityName = $entityName;
+
+        return $this;
+    }
+
+    /**
+     * Get entityName
+     *
+     * @return string 
+     */
+    public function getEntityName()
+    {
+        return $this->entityName;
     }
 
     /**

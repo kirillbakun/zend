@@ -1,0 +1,31 @@
+<?php
+    /**
+     * @var array $data;
+     */
+?>
+
+<ul class="pagination">
+    <?php foreach($data as $item): ?>
+        <li <?php echo $item['class']; ?>>
+            <a href="<?php echo $item['value']; ?>"><?php echo $item['show']; ?></a>
+        </li>
+    <?php endforeach; ?>
+    <!--<li class="disabled">
+        <a href="javascript:void(0)">&laquo;</a>
+    </li>
+    <li class="disabled">
+        <a href="javascript:void(0)">&lsaquo;</a>
+    </li>
+    <li class="active">
+        <a href="javascript:void(0)">1</a>
+    </li>
+    <li>
+        <a href="#">2</a>
+    </li>
+    <li>
+        <a href="#">&rsaquo;</a>
+    </li>
+    <li>
+        <a href="#">&raquo;</a>
+    </li>-->
+</ul>
