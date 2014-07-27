@@ -20,8 +20,7 @@
             $result = array();
             $min_page = $current - 3;
             $min_page = ($min_page > 0) ? $min_page : 1;
-            $for_min = $current - $min_page;
-            $max_page = $show_pages - $for_min;
+            $max_page = $min_page + $show_pages - 1;
             $max_page = ($max_page > $total_count) ? $total_count : $max_page;
 
             // first button

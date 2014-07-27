@@ -15,29 +15,29 @@
             $entity_name = 'Admin\\Manager\\' .ucfirst($table_name) .'Manager';
             $list_manager = new EntityManager($entity_manager);
             $current_entity = $list_manager->getOneActiveByTable($table_name);
+            $current_page = $this->params()->fromQuery('page');
+            $current_page = ($current_page) ? $current_page : 1;
 
             if(!class_exists($entity_name) && $current_entity) {
-                return $this->redirect()->toRoute('admin/default', array(
-                    'controller' => 'index',
-                ));
+                return $this->redirect()->toRoute('admin/default');
             }
 
             $list = $list_manager->getActiveList();
 
             $manager = new $entity_name($entity_manager);
-            $entities = $manager->getList();
+            $entities = $manager->getListByPageNumber($current_page);
+            $entities_total_count = $manager->getCount();
 
             $fields_list_manager = new FieldsListManager($entity_manager);
             $fields_list = $fields_list_manager->getListByEntityId($current_entity->id);
-
-            $current_page = $this->params()->fromQuery('afewfw');
 
             $view_model = new ViewModel(array(
                 'entities' => $entities,
                 'current_entity' => $current_entity,
                 'list' => $list,
                 'fields_list' => $fields_list,
-                'current_page' => ($current_page) ? $current_page : 1,
+                'current_page' => $current_page,
+                'total_count' => $entities_total_count,
             ));
             $view_model->setTemplate('admin/crud/index');
 
@@ -51,9 +51,7 @@
             $form_name = 'Admin\\Form\\' .ucfirst($table_name) .'Form';
 
             if(!class_exists($form_name)) {
-                return $this->redirect()->toRoute('admin/default', array(
-                    'controller' => 'index',
-                ));
+                return $this->redirect()->toRoute('admin/default');
             }
 
             $form = new $form_name(null, array('entity_manager' => $entity_manager));
@@ -118,9 +116,7 @@
             $manager_name = 'Admin\\Manager\\' .ucfirst($table_name) .'Manager';
 
             if(!class_exists($form_name) || !class_exists($filter_name) || !class_exists($manager_name) || !((int)$entity_id)) {
-                return $this->redirect()->toRoute('admin/default', array(
-                    'controller' => 'index',
-                ));
+                return $this->redirect()->toRoute('admin/default');
             }
 
             $manager = new $manager_name($entity_manager);
@@ -157,9 +153,7 @@
             $manager_name = 'Admin\\Manager\\' .ucfirst($table_name) .'Manager';
 
             if(!$this->request->isPost() || !class_exists($form_name) || !class_exists($filter_name) || !class_exists($manager_name)) {
-                return $this->redirect()->toRoute('admin/default', array(
-                    'controller' => 'index',
-                ));
+                return $this->redirect()->toRoute('admin/default');
             }
 
             $post = $this->request->getPost();
@@ -196,9 +190,7 @@
             $manager_name = 'Admin\\Manager\\' .ucfirst($table_name) .'Manager';
 
             if(!class_exists($manager_name) || !$entity_id) {
-                return $this->redirect()->toRoute('admin/default', array(
-                    'controller' => 'index',
-                ));
+                return $this->redirect()->toRoute('admin/default');
             }
 
             $manager = new $manager_name($entity_manager);

@@ -8,6 +8,7 @@
     {
         protected $entity_manager;
         protected $appropriate_entity;
+        protected $per_page = 1;
 
         public function __construct(EntityManager $entity_manager)
         {
@@ -64,6 +65,13 @@
         public function getActiveList($active_flag_name = 'isActive')
         {
             return $this->entity_manager->getRepository($this->appropriate_entity)->findBy(array($active_flag_name => 1));
+        }
+
+        public function getListByPageNumber($page_number)
+        {
+            $offset = ($page_number - 1)*$this->per_page;
+
+            return $this->entity_manager->getRepository($this->appropriate_entity)->findBy(array(), null, $this->per_page, $offset);
         }
 
         public function deleteOneById($id)
