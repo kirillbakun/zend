@@ -2,6 +2,7 @@
     namespace Admin\Manager;
 
     use Admin\Entity\AbstractEntity;
+    use Admin\Helper\MemcacheHelper;
     use Doctrine\ORM\EntityManager;
 
     abstract class AbstractManager
@@ -9,13 +10,14 @@
         protected $entity_manager;
         protected $appropriate_entity;
         protected $per_page = 1;
+        protected $memcache;
 
         public function __construct(EntityManager $entity_manager)
         {
             $this->entity_manager = $entity_manager;
             $class_name = get_called_class();
             $this->appropriate_entity = 'Admin\Entity\\' .str_replace('Manager', '', explode('\\', $class_name)[2]);
-
+            //$this->memcache = MemcacheHelper::getInstance();
         }
 
         protected function populateEntity(AbstractEntity $entity, $data, $fields)
