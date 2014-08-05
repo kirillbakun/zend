@@ -22,3 +22,18 @@ i, i a, i a:hover {color: #808080;}
 .alert.alert-danger {margin-top: 7px;}
 .with-offset {margin-top: 20px;}
 .save-button {min-width: 100px;}
+
+.alert.alert-danger.not-active {display: none;}
+.alert.alert-danger.not-active li {margin-left: 15px;}
+.alert.alert-danger.not-active.filled {display: block;}
+
+.form-control.parsley-error {
+    border-color: #a94442;
+    -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+}
+.form-control.parsley-error:focus {
+    border-color: #843534;
+    -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 6px #ce8483;
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 6px #ce8483;
+}

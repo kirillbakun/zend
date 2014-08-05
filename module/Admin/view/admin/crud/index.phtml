@@ -5,6 +5,7 @@
      * @var \Admin\Entity\FieldsList[] $fields_list;
      * @var \Admin\Entity\FieldsList $fields_item;
      * @var int $current_page;
+     * @var int $per_page;
      * @var int $total_count;
      */
 ?>
@@ -70,7 +71,7 @@
             </tbody>
         </table>
 
-        <?php $paginator_data = \Admin\Helper\PaginatorHelper::prepare($total_count, $current_page, 1); ?>
+        <?php $paginator_data = \Admin\Helper\PaginatorHelper::prepare($total_count, $current_page, $per_page); ?>
         <?php echo $this->partial('admin/blocks/paginator.phtml', array(
             'data' => $paginator_data,
         )); ?>

@@ -20,33 +20,31 @@
         echo $this->form()->openTag($form);
     ?>
 
-    <dl class="add-article-form">
-        <?php echo $this->formElement($form->get('id')); ?>
+    <?php echo $this->formElement($form->get('id')); ?>
 
-        <?php $error_value = $this->formElementErrors($form->get('text')); ?>
-        <div class="form-group<?php echo ($error_value) ? ' has-error' : ''; ?>">
-            <?php echo $this->formLabel($form->get('text')); ?>
-            <?php echo $this->formElement($form->get('text')); ?>
+    <?php $error_value = $this->formElementErrors($form->get('text')); ?>
+    <div class="form-group<?php echo ($error_value) ? ' has-error' : ''; ?>">
+        <?php echo $this->formLabel($form->get('text')); ?>
+        <?php echo $this->formElement($form->get('text')); ?>
 
-            <?php if($error_value): ?>
-                <div class="alert alert-danger" role="alert">
-                    <?php echo $error_value; ?>
-                </div>
-            <?php endif; ?>
-        </div>
+        <?php if($error_value): ?>
+            <div class="alert alert-danger" role="alert">
+                <?php echo $error_value; ?>
+            </div>
+        <?php endif; ?>
+    </div>
 
-        <div class="from-group">
-            <?php echo $this->formLabel($form->get('userId')); ?>
-            <?php echo $this->formElement($form->get('userId')); ?>
-        </div>
+    <div class="from-group">
+        <?php echo $this->formLabel($form->get('userId')); ?>
+        <?php echo $this->formElement($form->get('userId')); ?>
+    </div>
 
-        <div class="checkbox with-offset">
-            <?php echo $this->formElement($form->get('isActive')); ?>
-            <?php echo $this->formLabel($form->get('isActive')); ?>
-        </div>
+    <div class="checkbox with-offset">
+        <?php echo $this->formElement($form->get('isActive')); ?>
+        <?php echo $this->formLabel($form->get('isActive')); ?>
+    </div>
 
-        <?php echo $this->formElement($form->get('submit')); ?>
-    </dl>
+    <?php echo $this->formElement($form->get('submit')); ?>
 
     <?php echo $this->form()->closeTag(); ?>
 </section>

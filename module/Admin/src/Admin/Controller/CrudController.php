@@ -25,6 +25,7 @@
             $list = $list_manager->getActiveList();
 
             $manager = new $entity_name($entity_manager);
+            $per_page = $manager->getPerPage();
             $entities = $manager->getListByPageNumber($current_page);
             $entities_total_count = $manager->getCount();
 
@@ -37,6 +38,7 @@
                 'list' => $list,
                 'fields_list' => $fields_list,
                 'current_page' => $current_page,
+                'per_page' => $per_page,
                 'total_count' => $entities_total_count,
             ));
             $view_model->setTemplate('admin/crud/index');

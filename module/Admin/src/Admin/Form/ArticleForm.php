@@ -14,6 +14,7 @@
 
             parent::__construct('Article');
             $this->setAttribute('method', 'post');
+            $this->setAttribute('data-parsley-validate', '');
 
             $this->add(array(
                 'name' => 'id',
@@ -29,6 +30,11 @@
                 'attributes' => array(
                     'class' => 'form-control',
                     'maxlength' => 255,
+                    'id' => 'text',
+                    'required' => 'required',
+                    'data-parsley-length' => "[5, 255]",
+                    'data-parsley-error-message' => '5 chars min, 255 max',
+                    'data-parsley-group' => 'text'
                 ),
             ));
 
@@ -64,7 +70,8 @@
                 'type' => 'Zend\Form\Element\Submit',
                 'attributes' => array(
                     'value' => 'Save',
-                    'class' => 'btn btn-primary with-offset save-button'
+                    'class' => 'btn btn-primary with-offset save-button',
+                    'id' => 'submit',
                 ),
             ));
         }

@@ -20,6 +20,7 @@
                 'Admin\Controller\Crud' => 'Admin\Controller\CrudController',
                 'Admin\Controller\Article' => 'Admin\Controller\ArticleController',
                 'Admin\Controller\Ajax' => 'Admin\Controller\AjaxController',
+                'Admin\Controller\Test' => 'Admin\Controller\TestController',
             ),
         ),
         'router' => array(

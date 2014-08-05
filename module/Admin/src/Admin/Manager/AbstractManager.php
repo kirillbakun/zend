@@ -2,6 +2,7 @@
     namespace Admin\Manager;
 
     use Admin\Entity\AbstractEntity;
+    use Admin\Helper\ConfigHelper;
     use Admin\Helper\MemcacheHelper;
     use Doctrine\ORM\EntityManager;
 
@@ -9,15 +10,16 @@
     {
         protected $entity_manager;
         protected $appropriate_entity;
-        protected $per_page = 1;
-        protected $memcache;
+        protected $per_page;
+        protected $cache_enable;
 
         public function __construct(EntityManager $entity_manager)
         {
             $this->entity_manager = $entity_manager;
             $class_name = get_called_class();
             $this->appropriate_entity = 'Admin\Entity\\' .str_replace('Manager', '', explode('\\', $class_name)[2]);
-            //$this->memcache = MemcacheHelper::getInstance();
+            $this->per_page = ConfigHelper::getParam('per_page');
+            $this->cache_enable = ConfigHelper::getParam('cache_enable');
         }
 
         protected function populateEntity(AbstractEntity $entity, $data, $fields)
@@ -54,6 +56,19 @@
             return $data;
         }
 
+        protected function getValueFromCache($function = '', $params = array())
+        {
+            if(MemcacheHelper::isEnableCaching($this->appropriate_entity)) {
+                $data = MemcacheHelper::getItem($this->appropriate_entity, $function, $params);
+
+                if($data) {
+                    return $data;
+                }
+            }
+
+            return null;
+        }
+
         public function getOneById($id)
         {
             return $this->entity_manager->find($this->appropriate_entity, (int)$id);
@@ -61,7 +76,20 @@
 
         public function getList()
         {
-            return $this->entity_manager->getRepository($this->appropriate_entity)->findAll();
+            if($this->cache_enable) {
+                $value_from_cache = $this->getValueFromCache(__FUNCTION__);
+                if($value_from_cache) {
+                    return $value_from_cache;
+                }
+            }
+
+            $data = $this->entity_manager->getRepository($this->appropriate_entity)->findAll();
+
+            if($this->cache_enable && $data) {
+                MemcacheHelper::setItem($data, $this->appropriate_entity, __FUNCTION__);
+            }
+
+            return $data;
         }
 
         public function getActiveList($active_flag_name = 'isActive')
@@ -97,6 +125,11 @@
             $query = $query_builder->getQuery();
 
             return $query->getSingleScalarResult();
+        }
+
+        public function getPerPage()
+        {
+            return $this->per_page;
         }
 
         public abstract function insert($data);
