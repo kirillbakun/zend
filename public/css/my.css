@@ -15,9 +15,9 @@ i, i a, i a:hover {color: #808080;}
 .red {color: #ff3434;}
 .green {color: #2ac800;}
 
-.list-header {padding-bottom: 25px;}
-.list-header a {float: left; width: 165px;}
-.list-header h2 {text-align: center}
+.entity-header {padding: 10px 0 25px 0;}
+.entity-header .add-new-item {width: 100%;}
+.entity-header h2 {margin: 5px 0 0 0; text-align: center;}
 
 .alert.alert-danger {margin-top: 7px;}
 .with-offset {margin-top: 20px;}
@@ -37,3 +37,19 @@ i, i a, i a:hover {color: #808080;}
     -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 6px #ce8483;
     box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 6px #ce8483;
 }
+
+#admin-table .caret {color: #ffffff; margin-left: 6px;}
+#admin-table .headerSortDown .caret{
+    color: #333333;
+    border-top: 0;
+    border-bottom: 4px solid;
+}
+#admin-table .headerSortUp .caret{
+    color: #333333;
+    border-top: 4px solid;
+    border-bottom: 0;
+}
+
+#admin-table th {cursor: pointer;}
+#admin-table .not-sortable {cursor: default;}
+#admin-table .bool-value {display: none;}

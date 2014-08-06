@@ -21,6 +21,7 @@
     ?>
 
     <?php echo $this->formElement($form->get('id')); ?>
+    <?php echo $this->formElement($form->get('destination')); ?>
 
     <?php $error_value = $this->formElementErrors($form->get('text')); ?>
     <div class="form-group<?php echo ($error_value) ? ' has-error' : ''; ?>">

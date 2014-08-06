@@ -22,6 +22,11 @@
             ));
 
             $this->add(array(
+                'name' => 'destination',
+                'type' => 'Zend\Form\Element\Hidden',
+            ));
+
+            $this->add(array(
                 'name' => 'text',
                 'type' => 'Zend\Form\Element\TextArea',
                 'options' => array(

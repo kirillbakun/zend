@@ -26,8 +26,13 @@
 
             $manager = new $entity_name($entity_manager);
             $per_page = $manager->getPerPage();
-            $entities = $manager->getListByPageNumber($current_page);
             $entities_total_count = $manager->getCount();
+
+            if((int)($entities_total_count/$per_page) + 1 < $current_page) {
+                $current_page--;
+            }
+
+            $entities = $manager->getListByPageNumber($current_page);
 
             $fields_list_manager = new FieldsListManager($entity_manager);
             $fields_list = $fields_list_manager->getListByEntityId($current_entity->id);
@@ -51,13 +56,20 @@
             $entity_manager = $this->getServiceLocator()->get('Doctrine\ORM\EntityManager');
             $table_name = $this->params()->fromRoute('table');
             $form_name = 'Admin\\Form\\' .ucfirst($table_name) .'Form';
+            $destination = $this->params()->fromQuery('destination');
+            if(!$destination) {
+                $destination = 1;
+            }
 
             if(!class_exists($form_name)) {
                 return $this->redirect()->toRoute('admin/default');
             }
 
             $form = new $form_name(null, array('entity_manager' => $entity_manager));
-            $form->setData(array('isActive'=> true));
+            $form->setData(array(
+                'isActive'=> true,
+                'destination' => $destination,
+            ));
 
             $view_model = new ViewModel(array(
                 'form' => $form,
@@ -105,6 +117,10 @@
             return $this->redirect()->toRoute('admin/default', array(
                 'controller' => 'crud',
                 'table' => $table_name,
+            ), array(
+                'query' => array(
+                    'page' => $post['destination'],
+                ),
             ));
         }
 
@@ -116,6 +132,11 @@
             $form_name = 'Admin\\Form\\' .ucfirst($table_name) .'Form';
             $filter_name = 'Admin\\Form\\' .ucfirst($table_name) .'Filter';
             $manager_name = 'Admin\\Manager\\' .ucfirst($table_name) .'Manager';
+            $destination = $this->params()->fromQuery('destination');
+            if(!$destination) {
+                $destination = 1;
+            }
+
 
             if(!class_exists($form_name) || !class_exists($filter_name) || !class_exists($manager_name) || !((int)$entity_id)) {
                 return $this->redirect()->toRoute('admin/default');
@@ -128,6 +149,7 @@
                 $form = new $form_name(null, array('entity_manager' => $entity_manager));
                 $input_filter = new $filter_name($entity_manager);
                 $data = $manager->populateArray($entity);
+                $data['destination'] = $destination;
                 $form->setInputFilter($input_filter);
                 $form->setData($data);
 
@@ -181,6 +203,10 @@
             return $this->redirect()->toRoute('admin/default', array(
                 'controller' => 'crud',
                 'table' => $table_name,
+            ), array(
+                'query' => array(
+                    'page' => $post['destination'],
+                ),
             ));
         }
 
@@ -190,6 +216,7 @@
             $entity_id = $this->params()->fromRoute('id');
             $table_name = $this->params()->fromRoute('table');
             $manager_name = 'Admin\\Manager\\' .ucfirst($table_name) .'Manager';
+
 
             if(!class_exists($manager_name) || !$entity_id) {
                 return $this->redirect()->toRoute('admin/default');
