@@ -1,0 +1,51 @@
+<?php
+    /**
+     * @var Admin\Form\ArticleForm $form;
+     * @var string $action;
+     */
+?>
+
+<section class="add-new-article">
+    <h2>Add new article</h2>
+
+    <?php
+        $form = $this->form;
+        $form->prepare();
+        $form->setAttribute('action', $this->url('admin/default', array(
+            'controller' => 'crud',
+            'table' => 'article',
+            'action' => $action,
+        )));
+
+        echo $this->form()->openTag($form);
+    ?>
+
+    <?php echo $this->formElement($form->get('id')); ?>
+    <?php echo $this->formElement($form->get('page')); ?>
+
+    <?php $error_value = $this->formElementErrors($form->get('text')); ?>
+    <div class="form-group<?php echo ($error_value) ? ' has-error' : ''; ?>">
+        <?php echo $this->formLabel($form->get('text')); ?>
+        <?php echo $this->formElement($form->get('text')); ?>
+
+        <?php if($error_value): ?>
+            <div class="alert alert-danger" role="alert">
+                <?php echo $error_value; ?>
+            </div>
+        <?php endif; ?>
+    </div>
+
+    <div class="from-group">
+        <?php echo $this->formLabel($form->get('userId')); ?>
+        <?php echo $this->formElement($form->get('userId')); ?>
+    </div>
+
+    <div class="checkbox with-offset">
+        <?php echo $this->formElement($form->get('isActive')); ?>
+        <?php echo $this->formLabel($form->get('isActive')); ?>
+    </div>
+
+    <?php echo $this->formElement($form->get('submit')); ?>
+
+    <?php echo $this->form()->closeTag(); ?>
+</section>

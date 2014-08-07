@@ -1,0 +1,15 @@
+<?php
+    /**
+     * @var array $data;
+     */
+?>
+
+<ul class="pagination">
+    <?php if(isset($data) && $data): ?>
+        <?php foreach($data as $item): ?>
+            <li <?php echo $item['class']; ?>>
+                <a href="<?php echo $item['value']; ?>"><?php echo $item['show']; ?></a>
+            </li>
+        <?php endforeach; ?>
+    <?php endif; ?>
+</ul>

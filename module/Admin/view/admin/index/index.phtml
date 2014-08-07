@@ -1,5 +1,9 @@
-<ul class="articles-list">
-    <?php foreach($articles as $article): ?>
-        <?php echo $article->getId() .' - ' .$article->getText() .'<br/>'; ?>
-    <?php endforeach; ?>
-</ul>
+<?php
+    /**
+     * @var \Admin\Entity\Entity[] $entities;
+     */
+?>
+
+<?php echo $this->partial('admin/blocks/entities_list.phtml', array(
+    'entities' => $entities,
+)); ?>

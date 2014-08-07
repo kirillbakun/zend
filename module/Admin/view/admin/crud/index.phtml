@@ -1,0 +1,113 @@
+<?php
+    /**
+     * @var array $list;
+     * @var array $current_entity;
+     * @var array $fields_list;
+     * @var array $fields_item;
+     * @var int $current_page;
+     * @var int $per_page;
+     * @var int $total_count;
+     */
+?>
+
+<script>
+    $(document).ready(function() {
+        $("#admin-table").tablesorter({
+                headers: {
+                    3: {
+                        sorter: false
+                    }
+                }
+            }
+        );
+    });
+</script>
+
+<?php echo $this->partial('admin/blocks/entity_header.phtml', array(
+    'entity' => $current_entity,
+    'add_new_enable' => true,
+    'page' => ($total_count/$per_page == $current_page) ? $current_page + 1 : $current_page,
+)); ?>
+
+<div class="row">
+    <div class="col-md-2">
+        <?php echo $this->partial('admin/blocks/entities_list.phtml', array(
+            'entities' => $list,
+            'current_entity_name' => $current_entity['name'],
+        )); ?>
+    </div>
+    <div class="col-md-10">
+        <table class="table table-striped" id="admin-table">
+            <thead>
+            <tr>
+                <th>
+                    id
+                    <span class="caret"></span>
+                </th>
+                <?php foreach($fields_list as $fields_item): ?>
+                    <th>
+                        <?php echo $fields_item['display_name']; ?>
+                        <span class="caret"></span>
+                    </th>
+                <?php endforeach; ?>
+                <th class="not-sortable">Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            <?php foreach($entities as $entity): ?>
+                <tr>
+                    <td><?php echo $entity->id; ?></td>
+
+                    <?php foreach($fields_list as $fields_item): ?>
+                        <?php $name = $fields_item['name']; ?>
+                        <?php if($fields_item['type'] == 'bool'): ?>
+                            <?php echo $this->partial('admin/blocks/list_value_bool.phtml', array(
+                                'value' => $entity->$name,
+                            )); ?>
+                        <?php else: ?>
+                            <td><?php echo $entity->$name; ?></td>
+                        <?php endif; ?>
+                    <?php endforeach; ?>
+
+                    <td class="actions">
+                        <a href="<?php echo $this->url('admin/default', array(
+                            'controller' => 'crud',
+                            'table' => $current_entity['table'],
+                            'action' => 'edit',
+                            'id' => $entity->id,
+                        ), array(
+                            'query' => array(
+                                'page' => $current_page,
+                            ),
+                        )); ?>" class="edit">
+                            <i class="fa fa-pencil" title="Edit"></i>
+                        </a>
+                        <i class="fa fa-trash-o" title="Delete"></i>
+
+                        <a href="<?php echo $this->url('admin/default', array(
+                            'controller' => 'crud',
+                            'table' => $current_entity['table'],
+                            'action' => 'delete',
+                            'id' => $entity->id,
+                        ), array(
+                            'query' => array(
+                                'page' => $current_page,
+                            ),
+                        )); ?>" class="hidden-link">
+                            <i class="fa fa-times red" title="Delete"></i>
+                        </a>
+                        <i class="fa fa-arrow-left" title="Cancel"></i>
+                    </td>
+                </tr>
+            <?php endforeach; ?>
+            </tbody>
+        </table>
+
+        <?php if($total_count/$per_page > 1): ?>
+            <?php $paginator_data = \Admin\Helper\PaginatorHelper::prepare($total_count, $current_page, $per_page); ?>
+            <?php echo $this->partial('admin/blocks/paginator.phtml', array(
+                'data' => $paginator_data,
+            )); ?>
+        <?php endif; ?>
+    </div>
+</div>

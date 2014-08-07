@@ -21,7 +21,7 @@
                         'port' => '3306',
                         'dbname' => 'zend',
                         'user' => 'root',
-                        'password' => '123456',
+                        'password' => '',
                     ),
                 ),
             )

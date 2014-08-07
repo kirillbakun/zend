@@ -1,0 +1,17 @@
+<?php
+    /**
+     * @var bool $value;
+     */
+?>
+
+<?php if($value): ?>
+    <td>
+        <i class="fa fa-check green"></i>
+        <span class="bool-value"><?php echo($value) ? 2 : 3; ?></span>
+    </td>
+<?php else: ?>
+    <td>
+        <i class="fa fa-times red"></i>
+        <span class="bool-value"><?php echo($value) ? 2 : 3; ?></span>
+    </td>
+<?php endif; ?>
