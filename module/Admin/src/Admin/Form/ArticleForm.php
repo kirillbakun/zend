@@ -22,7 +22,7 @@
             ));
 
             $this->add(array(
-                'name' => 'destination',
+                'name' => 'page',
                 'type' => 'Zend\Form\Element\Hidden',
             ));
 

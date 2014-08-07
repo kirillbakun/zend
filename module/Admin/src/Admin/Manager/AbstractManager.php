@@ -74,7 +74,7 @@
             return $this->entity_manager->find($this->appropriate_entity, (int)$id);
         }
 
-        public function getList()
+        public function getList($order = null)
         {
             if($this->cache_enable) {
                 $value_from_cache = $this->getValueFromCache(__FUNCTION__);
@@ -83,7 +83,7 @@
                 }
             }
 
-            $data = $this->entity_manager->getRepository($this->appropriate_entity)->findAll();
+            $data = $this->entity_manager->getRepository($this->appropriate_entity)->findBy(array(), $order);
 
             if($this->cache_enable && $data) {
                 MemcacheHelper::setItem($data, $this->appropriate_entity, __FUNCTION__);
@@ -92,16 +92,16 @@
             return $data;
         }
 
-        public function getActiveList($active_flag_name = 'isActive')
+        public function getActiveList($active_flag_name = 'isActive', $order = null)
         {
-            return $this->entity_manager->getRepository($this->appropriate_entity)->findBy(array($active_flag_name => 1));
+            return $this->entity_manager->getRepository($this->appropriate_entity)->findBy(array($active_flag_name => 1), $order);
         }
 
-        public function getListByPageNumber($page_number)
+        public function getListByPageNumber($page_number, $order = null)
         {
             $offset = ($page_number - 1)*$this->per_page;
 
-            return $this->entity_manager->getRepository($this->appropriate_entity)->findBy(array(), null, $this->per_page, $offset);
+            return $this->entity_manager->getRepository($this->appropriate_entity)->findBy(array(), $order, $this->per_page, $offset);
         }
 
         public function deleteOneById($id)
