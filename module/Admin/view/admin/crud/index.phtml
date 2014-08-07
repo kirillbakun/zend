@@ -1,9 +1,9 @@
 <?php
     /**
-     * @var \Admin\Entity\Entity[] $list;
-     * @var \Admin\Entity\Entity $current_entity;
-     * @var \Admin\Entity\FieldsList[] $fields_list;
-     * @var \Admin\Entity\FieldsList $fields_item;
+     * @var array $list;
+     * @var array $current_entity;
+     * @var array $fields_list;
+     * @var array $fields_item;
      * @var int $current_page;
      * @var int $per_page;
      * @var int $total_count;
@@ -33,7 +33,7 @@
     <div class="col-md-2">
         <?php echo $this->partial('admin/blocks/entities_list.phtml', array(
             'entities' => $list,
-            'current_entity_name' => $current_entity->name,
+            'current_entity_name' => $current_entity['name'],
         )); ?>
     </div>
     <div class="col-md-10">
@@ -46,7 +46,7 @@
                 </th>
                 <?php foreach($fields_list as $fields_item): ?>
                     <th>
-                        <?php echo $fields_item->displayName; ?>
+                        <?php echo $fields_item['display_name']; ?>
                         <span class="caret"></span>
                     </th>
                 <?php endforeach; ?>
@@ -59,8 +59,8 @@
                     <td><?php echo $entity->id; ?></td>
 
                     <?php foreach($fields_list as $fields_item): ?>
-                        <?php $name = $fields_item->entityName; ?>
-                        <?php if($fields_item->type == 'bool'): ?>
+                        <?php $name = $fields_item['name']; ?>
+                        <?php if($fields_item['type'] == 'bool'): ?>
                             <?php echo $this->partial('admin/blocks/list_value_bool.phtml', array(
                                 'value' => $entity->$name,
                             )); ?>
@@ -72,7 +72,7 @@
                     <td class="actions">
                         <a href="<?php echo $this->url('admin/default', array(
                             'controller' => 'crud',
-                            'table' => $current_entity->table,
+                            'table' => $current_entity['table'],
                             'action' => 'edit',
                             'id' => $entity->id,
                         ), array(
@@ -86,7 +86,7 @@
 
                         <a href="<?php echo $this->url('admin/default', array(
                             'controller' => 'crud',
-                            'table' => $current_entity->table,
+                            'table' => $current_entity['table'],
                             'action' => 'delete',
                             'id' => $entity->id,
                         ), array(

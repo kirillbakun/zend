@@ -1,7 +1,7 @@
 <?php
     /**
-     * @var \Admin\Entity\Entity[] $entities;
-     * @var \Admin\Entity\Entity $entity;
+     * @var array $entities;
+     * @var array $entity;
      * @var string $current_entity_name;
      */
 ?>
@@ -10,9 +10,9 @@
     <?php foreach($entities as $entity): ?>
         <a href="<?php echo $this->url('admin/default', array(
             'controller' => 'crud',
-            'table' => $entity->name,
-        )); ?>" class="list-group-item<?php echo (isset($current_entity_name) && $current_entity_name == $entity->name) ? ' active' : ''; ?>">
-            <?php echo ucfirst($entity->pluralName); ?>
+            'table' => $entity['table'],
+        )); ?>" class="list-group-item<?php echo (isset($current_entity_name) && $current_entity_name == $entity['name']) ? ' active' : ''; ?>">
+            <?php echo ucfirst($entity['plural_name']); ?>
         </a>
     <?php endforeach; ?>
 </div>

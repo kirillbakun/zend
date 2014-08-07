@@ -1,6 +1,6 @@
 <?php
     /**
-     * @var \Admin\Entity\Entity $entity;
+     * @var array $entity;
      * @var int $page;
      * @var bool $add_new_enable;
      */
@@ -11,18 +11,18 @@
         <?php if($add_new_enable): ?>
             <a href="<?php echo $this->url('admin/default', array(
                 'controller' => 'crud',
-                'table' => $entity->name,
+                'table' => $entity['name'],
                 'action' => 'add',
             ), array(
                 'query' => array(
                     'destination' => $page,
                 ),
             )); ?>" class="btn btn-success add-new-item" role="button">
-                Add new <?php echo $entity->name; ?>
+                Add new <?php echo $entity['name']; ?>
             </a>
         <?php endif; ?>
     </div>
     <div class="col-md-10">
-        <h2><?php echo ucfirst($entity->pluralName); ?></h2>
+        <h2><?php echo ucfirst($entity['plural_name']); ?></h2>
     </div>
 </div>

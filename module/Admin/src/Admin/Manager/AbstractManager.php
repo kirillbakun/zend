@@ -3,6 +3,7 @@
 
     use Admin\Entity\AbstractEntity;
     use Admin\Helper\ConfigHelper;
+    use Admin\Helper\EntityFieldsHelper;
     use Admin\Helper\MemcacheHelper;
     use Doctrine\ORM\EntityManager;
 
@@ -10,46 +11,73 @@
     {
         protected $entity_manager;
         protected $appropriate_entity;
+        protected $appropriate_table;
         protected $per_page;
         protected $cache_enable;
 
         public function __construct(EntityManager $entity_manager)
         {
             $this->entity_manager = $entity_manager;
-            $class_name = get_called_class();
-            $this->appropriate_entity = 'Admin\Entity\\' .str_replace('Manager', '', explode('\\', $class_name)[2]);
+            $full_class_name = get_called_class();
+            $class_name = explode('\\', $full_class_name)[2];
+            $this->appropriate_entity = 'Admin\Entity\\' .str_replace('Manager', '', $class_name);
+            $this->appropriate_table = mb_strtolower(str_replace('Manager', '', $class_name), 'utf-8');
             $this->per_page = ConfigHelper::getParam('per_page');
             $this->cache_enable = ConfigHelper::getParam('cache_enable');
         }
 
-        protected function populateEntity(AbstractEntity $entity, $data, $fields)
+        protected function populateEntity(AbstractEntity $entity, $data)
         {
-            foreach($fields['fields'] as $field) {
-                if(isset($entity->$field)) {
-                    $entity->$field = (isset($data[$field]) && $data[$field]) ? $data[$field] : null;
+            $fields = EntityFieldsHelper::getFields($this->appropriate_table);
+            $foreign_keys = EntityFieldsHelper::getForeignKeys($this->appropriate_table);
+
+            foreach($fields as $field) {
+                if(isset($entity->$field['name'])) {
+                    if($field['type'] == 'bool') {
+                        $entity->$field['name'] = (isset($data[$field['name']]) && $data[$field['name']]) ? $data[$field['name']] : null;
+                    } else {
+                        $entity->$field['name'] = (isset($data[$field['name']])) ? $data[$field['name']] : null;
+                    }
+                }
+            }
+
+            foreach($foreign_keys as $fk) {
+                if(isset($entity->$fk['entity'])) {
+                    if(isset($data[$fk['name']]) && $data[$fk['name']]) {
+                        $manager = 'Admin\Manager\\'  .ucfirst($fk['entity']) .'Manager';
+                        if(class_exists($manager)) {
+                            $fk_manager = new $manager($this->entity_manager);
+                            $fk_entity = $fk_manager->getOneById($data[$fk['name']]);
+                            $entity->$fk['entity'] = $fk_entity;
+                        } else {
+                            $entity->$fk['entity'] = null;
+                        }
+                    } else {
+                        $entity->$fk['entity'] = null;
+                    }
                 }
             }
 
             return $entity;
         }
 
-        protected function populateArray(AbstractEntity $entity, $data, $fields)
+        public function populateArray(AbstractEntity $entity)
         {
-            foreach($fields as $part => $fields_group) {
-                if($part == 'fk') {
-                    continue;
-                }
+            $fields = EntityFieldsHelper::getFields($this->appropriate_table);
+            $foreign_keys = EntityFieldsHelper::getForeignKeys($this->appropriate_table);
 
-                foreach($fields[$part] as $field) {
-                    if(isset($entity->$field)) {
-                        $data[$field] = $entity->$field;
-                    }
+            $data = array();
+            $data['id'] = isset($entity->id) ? $entity->id : null;
+
+            foreach($fields as $field) {
+                if(isset($entity->$field['name'])) {
+                    $data[$field['name']] = $entity->$field['name'];
                 }
             }
 
-            foreach($fields['fk'] as $key => $field) {
-                if(isset($entity->$field)) {
-                    $data[$key] = isset($entity->$field->id) ? $entity->$field->id : null;
+            foreach($foreign_keys as $fk) {
+                if(isset($entity->$fk['entity'])) {
+                    $data[$fk['name']] = $entity->$fk['entity']->id;
                 }
             }
 
@@ -132,6 +160,35 @@
             return $this->per_page;
         }
 
-        public abstract function insert($data);
-        public abstract function update($data);
+        public function insert($data)
+        {
+            if(class_exists($this->appropriate_entity)) {
+                $entity = new $this->appropriate_entity();
+                $this->populateEntity($entity, $data);
+                $this->entity_manager->persist($entity);
+                $this->entity_manager->flush();
+
+                return $entity->id;
+            }
+
+            return null;
+        }
+
+        public function update($data)
+        {
+            $manager_class = 'Admin\Manager\\' .ucfirst($this->appropriate_table) .'Manager';
+            if(class_exists($manager_class)) {
+                $manager = new $manager_class($this->entity_manager);
+                $entity = $manager->getOneById($data['id']);
+                if($entity) {
+                    $this->populateEntity($entity, $data);
+                    $this->entity_manager->persist($entity);
+                    $this->entity_manager->flush();
+
+                    return $entity->id;
+                }
+            }
+
+            return null;
+        }
     }
