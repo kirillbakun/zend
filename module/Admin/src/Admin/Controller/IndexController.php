@@ -2,7 +2,6 @@
     namespace Admin\Controller;
 
     use Admin\Helper\EntityFieldsHelper;
-    use Admin\Manager\EntityManager;
     use Zend\Mvc\Controller\AbstractActionController;
     use Zend\View\Model\ViewModel;
 
