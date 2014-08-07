@@ -1,20 +1,28 @@
 <?php
     /**
-     * @var \Admin\Entity\Entity $entity;
+     * @var array $entity;
+     * @var int $page;
+     * @var bool $add_new_enable;
      */
 ?>
 
-<div class="row">
-    <div class="col-md-12">
-        <div class="list-header">
+<div class="row entity-header">
+    <div class="col-md-2">
+        <?php if($add_new_enable): ?>
             <a href="<?php echo $this->url('admin/default', array(
                 'controller' => 'crud',
-                'table' => $entity->name,
+                'table' => $entity['name'],
                 'action' => 'add',
-            )); ?>" class="btn btn-primary" role="button">
-                Add new <?php echo $entity->name; ?>
+            ), array(
+                'query' => array(
+                    'destination' => $page,
+                ),
+            )); ?>" class="btn btn-success add-new-item" role="button">
+                Add new <?php echo $entity['name']; ?>
             </a>
-            <h2><?php echo ucfirst($entity->pluralName); ?></h2>
-        </div>
+        <?php endif; ?>
+    </div>
+    <div class="col-md-10">
+        <h2><?php echo ucfirst($entity['plural_name']); ?></h2>
     </div>
 </div>

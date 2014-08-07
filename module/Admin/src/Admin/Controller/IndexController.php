@@ -1,7 +1,7 @@
 <?php
     namespace Admin\Controller;
 
-    use Admin\Manager\EntityManager;
+    use Admin\Helper\EntityFieldsHelper;
     use Zend\Mvc\Controller\AbstractActionController;
     use Zend\View\Model\ViewModel;
 
@@ -9,10 +9,7 @@
     {
         public function indexAction()
         {
-            $entity_manager = $this->getServiceLocator()->get('Doctrine\ORM\EntityManager');
-
-            $entities_list_manager = new EntityManager($entity_manager);
-            $entities_list = $entities_list_manager->getActiveList();
+            $entities_list = EntityFieldsHelper::getEntitiesList();
 
             return new ViewModel(array(
                 'entities' => $entities_list,

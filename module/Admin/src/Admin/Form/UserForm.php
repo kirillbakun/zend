@@ -1,10 +1,9 @@
 <?php
     namespace Admin\Form;
 
-    use Admin\Helper\SelectHelper;
     use Zend\Form\Form;
 
-    class ArticleForm extends Form
+    class UserForm extends Form
     {
         private $entity_manager;
 
@@ -12,7 +11,7 @@
         {
             $this->entity_manager = $options['entity_manager'];
 
-            parent::__construct('Article');
+            parent::__construct('User');
 
             $this->setAttribute('method', 'post');
             $this->setAttribute('data-parsley-validate', '');
@@ -28,32 +27,19 @@
             ));
 
             $this->add(array(
-                'name' => 'text',
-                'type' => 'Zend\Form\Element\TextArea',
+                'name' => 'name',
+                'type' => 'Zend\Form\Element\Text',
                 'options' => array(
-                    'label' => 'Article text',
+                    'label' => 'User name',
                 ),
                 'attributes' => array(
                     'class' => 'form-control',
                     'maxlength' => 255,
-                    'id' => 'text',
+                    'id' => 'name',
                     'required' => 'required',
-                    'data-parsley-length' => "[5, 255]",
-                    'data-parsley-error-message' => '5 chars min, 255 max',
-                    'data-parsley-group' => 'text'
-                ),
-            ));
-
-            $this->add(array(
-                'name' => 'userId',
-                'type' => 'Zend\Form\Element\Select',
-                'options' => array(
-                    'label' => 'User',
-                    'value_options' => SelectHelper::getUsersData($this->entity_manager),
-                    'disable_inarray_validator' => true,
-                ),
-                'attributes' => array(
-                    'class' => 'form-control',
+                    'data-parsley-length' => "[3, 255]",
+                    'data-parsley-error-message' => '3 chars min, 255 max',
+                    'data-parsley=group' => 'name',
                 ),
             ));
 
@@ -61,22 +47,12 @@
                 'name' => 'isActive',
                 'type' => 'Zend\Form\Element\Checkbox',
                 'options' => array(
-                    'label' => 'Published',
+                    'label' => 'Acitve',
                     'checked_value' => true,
                     'unchecked_value' => null,
                 ),
                 'attributes' => array(
                     'id' => 'isActive',
-                ),
-            ));
-
-            $this->add(array(
-                'name' => 'submit',
-                'type' => 'Zend\Form\Element\Submit',
-                'attributes' => array(
-                    'value' => 'Save',
-                    'class' => 'btn btn-primary with-offset save-button',
-                    'id' => 'submit',
                 ),
             ));
 

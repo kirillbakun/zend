@@ -1,8 +1,7 @@
 <?php
     namespace Admin\Controller;
 
-    use Admin\Manager\EntityManager;
-    use Admin\Manager\FieldsListManager;
+    use Admin\Helper\EntityFieldsHelper;
     use Zend\Mvc\Controller\AbstractActionController;
     use Zend\View\Model\ViewModel;
 
@@ -13,29 +12,32 @@
             $entity_manager = $this->getServiceLocator()->get('Doctrine\ORM\EntityManager');
             $table_name = $this->params()->fromRoute('table');
             $entity_name = 'Admin\\Manager\\' .ucfirst($table_name) .'Manager';
-            $list_manager = new EntityManager($entity_manager);
-            $current_entity = $list_manager->getOneActiveByTable($table_name);
             $current_page = $this->params()->fromQuery('page');
-            $current_page = ($current_page) ? $current_page : 1;
+            $current_page = ((int)$current_page) ? (int)$current_page : 1;
+
+            $entities_list = EntityFieldsHelper::getEntitiesList();
+            $current_entity = EntityFieldsHelper::getCurrentEntity($entities_list, $table_name);
 
             if(!class_exists($entity_name) && $current_entity) {
                 return $this->redirect()->toRoute('admin/default');
             }
 
-            $list = $list_manager->getActiveList();
-
             $manager = new $entity_name($entity_manager);
             $per_page = $manager->getPerPage();
-            $entities = $manager->getListByPageNumber($current_page);
             $entities_total_count = $manager->getCount();
 
-            $fields_list_manager = new FieldsListManager($entity_manager);
-            $fields_list = $fields_list_manager->getListByEntityId($current_entity->id);
+            if(($entities_total_count/$per_page) <= $current_page - 1) {
+                $current_page--;
+            }
+
+            $entities = $manager->getListByPageNumber($current_page, array('id' => 'DESC'));
+
+            $fields_list = EntityFieldsHelper::getListDisplayedFields($table_name);
 
             $view_model = new ViewModel(array(
                 'entities' => $entities,
                 'current_entity' => $current_entity,
-                'list' => $list,
+                'list' => $entities_list,
                 'fields_list' => $fields_list,
                 'current_page' => $current_page,
                 'per_page' => $per_page,
@@ -51,13 +53,18 @@
             $entity_manager = $this->getServiceLocator()->get('Doctrine\ORM\EntityManager');
             $table_name = $this->params()->fromRoute('table');
             $form_name = 'Admin\\Form\\' .ucfirst($table_name) .'Form';
+            $page = $this->params()->fromQuery('page');
+            $page = ((int)$page) ? (int)$page : 1;
 
             if(!class_exists($form_name)) {
                 return $this->redirect()->toRoute('admin/default');
             }
 
             $form = new $form_name(null, array('entity_manager' => $entity_manager));
-            $form->setData(array('isActive'=> true));
+            $form->setData(array(
+                'isActive'=> true,
+                'page' => $page,
+            ));
 
             $view_model = new ViewModel(array(
                 'form' => $form,
@@ -105,6 +112,10 @@
             return $this->redirect()->toRoute('admin/default', array(
                 'controller' => 'crud',
                 'table' => $table_name,
+            ), array(
+                'query' => array(
+                    'page' => $post['page'],
+                ),
             ));
         }
 
@@ -116,6 +127,8 @@
             $form_name = 'Admin\\Form\\' .ucfirst($table_name) .'Form';
             $filter_name = 'Admin\\Form\\' .ucfirst($table_name) .'Filter';
             $manager_name = 'Admin\\Manager\\' .ucfirst($table_name) .'Manager';
+            $page = $this->params()->fromQuery('page');
+            $page = ((int)$page) ? (int)$page : 1;
 
             if(!class_exists($form_name) || !class_exists($filter_name) || !class_exists($manager_name) || !((int)$entity_id)) {
                 return $this->redirect()->toRoute('admin/default');
@@ -128,6 +141,7 @@
                 $form = new $form_name(null, array('entity_manager' => $entity_manager));
                 $input_filter = new $filter_name($entity_manager);
                 $data = $manager->populateArray($entity);
+                $data['page'] = $page;
                 $form->setInputFilter($input_filter);
                 $form->setData($data);
 
@@ -135,7 +149,7 @@
                     'form' => $form,
                     'action' => 'update',
                 ));
-                $view_model->setTemplate('admin/article/article_form');
+                $view_model->setTemplate('admin/' .$table_name .'/' .$table_name .'_form');
 
                 return $view_model;
             }
@@ -181,6 +195,10 @@
             return $this->redirect()->toRoute('admin/default', array(
                 'controller' => 'crud',
                 'table' => $table_name,
+            ), array(
+                'query' => array(
+                    'page' => $post['page'],
+                ),
             ));
         }
 
@@ -190,6 +208,8 @@
             $entity_id = $this->params()->fromRoute('id');
             $table_name = $this->params()->fromRoute('table');
             $manager_name = 'Admin\\Manager\\' .ucfirst($table_name) .'Manager';
+            $page = $this->params()->fromQuery('page');
+            $page = ((int)$page) ? (int)$page : 1;
 
             if(!class_exists($manager_name) || !$entity_id) {
                 return $this->redirect()->toRoute('admin/default');
@@ -201,6 +221,10 @@
             return $this->redirect()->toRoute('admin/default', array(
                 'controller' => 'crud',
                 'table' => $table_name,
+            ), array(
+                'query' => array(
+                    'page' => $page,
+                ),
             ));
         }
     }

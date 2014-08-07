@@ -1,6 +1,6 @@
 <?php
     /**
-     * @var Admin\Form\ArticleForm $form;
+     * @var Admin\Form\UserForm $form;
      * @var string $action;
      */
 ?>
@@ -13,7 +13,7 @@
         $form->prepare();
         $form->setAttribute('action', $this->url('admin/default', array(
             'controller' => 'crud',
-            'table' => 'article',
+            'table' => 'user',
             'action' => $action,
         )));
 
@@ -23,21 +23,16 @@
     <?php echo $this->formElement($form->get('id')); ?>
     <?php echo $this->formElement($form->get('page')); ?>
 
-    <?php $error_value = $this->formElementErrors($form->get('text')); ?>
+    <?php $error_value = $this->formElementErrors($form->get('name')); ?>
     <div class="form-group<?php echo ($error_value) ? ' has-error' : ''; ?>">
-        <?php echo $this->formLabel($form->get('text')); ?>
-        <?php echo $this->formElement($form->get('text')); ?>
+        <?php echo $this->formLabel($form->get('name')); ?>
+        <?php echo $this->formElement($form->get('name')); ?>
 
         <?php if($error_value): ?>
             <div class="alert alert-danger" role="alert">
                 <?php echo $error_value; ?>
             </div>
         <?php endif; ?>
-    </div>
-
-    <div class="from-group">
-        <?php echo $this->formLabel($form->get('userId')); ?>
-        <?php echo $this->formElement($form->get('userId')); ?>
     </div>
 
     <div class="checkbox with-offset">
