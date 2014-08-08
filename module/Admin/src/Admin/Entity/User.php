@@ -31,9 +31,16 @@ class User extends AbstractEntity
     /**
      * @var string
      *
-     * @ORM\Column(name="name", type="string", length=255, nullable=true)
+     * @ORM\Column(name="login", type="string", length=100, nullable=true)
      */
-    private $name;
+    private $login;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="email", type="string", length=100, nullable=true)
+     */
+    private $email;
 
 
 
@@ -71,25 +78,48 @@ class User extends AbstractEntity
     }
 
     /**
-     * Set name
+     * Set login
      *
-     * @param string $name
+     * @param string $login
      * @return User
      */
-    public function setName($name)
+    public function setLogin($login)
     {
-        $this->name = $name;
+        $this->login = $login;
 
         return $this;
     }
 
     /**
-     * Get name
+     * Get login
      *
      * @return string 
      */
-    public function getName()
+    public function getLogin()
     {
-        return $this->name;
+        return $this->login;
+    }
+
+    /**
+     * Set email
+     *
+     * @param string $email
+     * @return User
+     */
+    public function setEmail($email)
+    {
+        $this->email = $email;
+
+        return $this;
+    }
+
+    /**
+     * Get email
+     *
+     * @return string 
+     */
+    public function getEmail()
+    {
+        return $this->email;
     }
 }

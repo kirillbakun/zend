@@ -1,7 +1,8 @@
 <?php
     namespace Admin\Form;
 
-    use Admin\Helper\SelectHelper;
+    use Admin\Helper\RelatedEntityHelper;
+    use Admin\Manager\UserManager;
     use Zend\Form\Form;
 
     class ArticleForm extends Form
@@ -49,7 +50,7 @@
                 'type' => 'Zend\Form\Element\Select',
                 'options' => array(
                     'label' => 'User',
-                    'value_options' => SelectHelper::getUsersData($this->entity_manager),
+                    'value_options' => RelatedEntityHelper::createSelectDataArray($this->getUsers(), 'login'),
                     'disable_inarray_validator' => true,
                 ),
                 'attributes' => array(
@@ -89,5 +90,12 @@
                     'id' => 'submit',
                 ),
             ));
+        }
+
+        private function getUsers()
+        {
+            $user_manager = new UserManager($this->entity_manager);
+
+            return $user_manager->getActiveList();
         }
     }

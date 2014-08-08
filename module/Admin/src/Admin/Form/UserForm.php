@@ -27,19 +27,35 @@
             ));
 
             $this->add(array(
-                'name' => 'name',
+                'name' => 'login',
                 'type' => 'Zend\Form\Element\Text',
                 'options' => array(
-                    'label' => 'User name',
+                    'label' => 'Login',
                 ),
                 'attributes' => array(
                     'class' => 'form-control',
-                    'maxlength' => 255,
+                    'maxlength' => 100,
+                    'id' => 'login',
+                    'required' => 'required',
+                    'data-parsley-length' => "[3, 100]",
+                    'data-parsley-error-message' => '3 chars min, 100 max',
+                    'data-parsley=group' => 'login',
+                ),
+            ));
+
+            $this->add(array(
+                'name' => 'email',
+                'type' => 'Zend\Form\Element\Email',
+                'options' => array(
+                    'label' => 'E-mail',
+                ),
+                'attributes' => array(
+                    'class' => 'form-control',
+                    'maxlength' => 100,
                     'id' => 'name',
                     'required' => 'required',
-                    'data-parsley-length' => "[3, 255]",
-                    'data-parsley-error-message' => '3 chars min, 255 max',
-                    'data-parsley=group' => 'name',
+                    'data-parsley-error-message' => 'Enter correct e-mail address',
+                    'data-parsley=group' => 'email',
                 ),
             ));
 

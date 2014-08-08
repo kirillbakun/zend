@@ -13,7 +13,7 @@
             $this->entity_manager = $entity_manager;
 
             $this->add(array(
-                'name' => 'name',
+                'name' => 'login',
                 'required' => true,
                 'filters' => array(
                     array(
@@ -27,6 +27,19 @@
                             'encoding' => 'UTF-8',
                             'min' => 3,
                             'max' => 255,
+                        ),
+                    ),
+                ),
+            ));
+
+            $this->add(array(
+                'name' => 'email',
+                'required' => true,
+                'validators' => array(
+                    array(
+                        'name' => 'EmailAddress',
+                        'options' => array(
+                            'domain' => true,
                         ),
                     ),
                 ),

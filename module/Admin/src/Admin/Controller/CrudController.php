@@ -12,8 +12,7 @@
             $entity_manager = $this->getServiceLocator()->get('Doctrine\ORM\EntityManager');
             $table_name = $this->params()->fromRoute('table');
             $entity_name = 'Admin\\Manager\\' .ucfirst($table_name) .'Manager';
-            $current_page = $this->params()->fromQuery('page');
-            $current_page = ((int)$current_page) ? (int)$current_page : 1;
+            $current_page = (int)$this->params()->fromQuery('page', 1);
 
             $entities_list = EntityFieldsHelper::getEntitiesList();
             $current_entity = EntityFieldsHelper::getCurrentEntity($entities_list, $table_name);
@@ -53,8 +52,7 @@
             $entity_manager = $this->getServiceLocator()->get('Doctrine\ORM\EntityManager');
             $table_name = $this->params()->fromRoute('table');
             $form_name = 'Admin\\Form\\' .ucfirst($table_name) .'Form';
-            $page = $this->params()->fromQuery('page');
-            $page = ((int)$page) ? (int)$page : 1;
+            $page = (int)$this->params()->fromQuery('page', 1);
 
             if(!class_exists($form_name)) {
                 return $this->redirect()->toRoute('admin/default');
@@ -114,7 +112,7 @@
                 'table' => $table_name,
             ), array(
                 'query' => array(
-                    'page' => $post['page'],
+                    'page' => ((int)$post['page']) ? (int)$post['page'] : 1,
                 ),
             ));
         }
@@ -127,8 +125,7 @@
             $form_name = 'Admin\\Form\\' .ucfirst($table_name) .'Form';
             $filter_name = 'Admin\\Form\\' .ucfirst($table_name) .'Filter';
             $manager_name = 'Admin\\Manager\\' .ucfirst($table_name) .'Manager';
-            $page = $this->params()->fromQuery('page');
-            $page = ((int)$page) ? (int)$page : 1;
+            $page = (int)$this->params()->fromQuery('page', 1);
 
             if(!class_exists($form_name) || !class_exists($filter_name) || !class_exists($manager_name) || !((int)$entity_id)) {
                 return $this->redirect()->toRoute('admin/default');
@@ -197,7 +194,7 @@
                 'table' => $table_name,
             ), array(
                 'query' => array(
-                    'page' => $post['page'],
+                    'page' => ((int)$post['page']) ? (int)$post['page'] : 1,
                 ),
             ));
         }
@@ -208,8 +205,7 @@
             $entity_id = $this->params()->fromRoute('id');
             $table_name = $this->params()->fromRoute('table');
             $manager_name = 'Admin\\Manager\\' .ucfirst($table_name) .'Manager';
-            $page = $this->params()->fromQuery('page');
-            $page = ((int)$page) ? (int)$page : 1;
+            $page = (int)$this->params()->fromQuery('page', 1);
 
             if(!class_exists($manager_name) || !$entity_id) {
                 return $this->redirect()->toRoute('admin/default');

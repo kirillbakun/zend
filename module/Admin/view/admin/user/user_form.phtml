@@ -23,10 +23,22 @@
     <?php echo $this->formElement($form->get('id')); ?>
     <?php echo $this->formElement($form->get('page')); ?>
 
-    <?php $error_value = $this->formElementErrors($form->get('name')); ?>
+    <?php $error_value = $this->formElementErrors($form->get('login')); ?>
     <div class="form-group<?php echo ($error_value) ? ' has-error' : ''; ?>">
-        <?php echo $this->formLabel($form->get('name')); ?>
-        <?php echo $this->formElement($form->get('name')); ?>
+        <?php echo $this->formLabel($form->get('login')); ?>
+        <?php echo $this->formElement($form->get('login')); ?>
+
+        <?php if($error_value): ?>
+            <div class="alert alert-danger" role="alert">
+                <?php echo $error_value; ?>
+            </div>
+        <?php endif; ?>
+    </div>
+
+    <?php $error_value = $this->formElementErrors($form->get('email')); ?>
+    <div class="form-group<?php echo ($error_value) ? ' has-error' : ''; ?>">
+        <?php echo $this->formLabel($form->get('email')); ?>
+        <?php echo $this->formElement($form->get('email')); ?>
 
         <?php if($error_value): ?>
             <div class="alert alert-danger" role="alert">

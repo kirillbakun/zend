@@ -1,7 +1,8 @@
 <?php
     namespace Admin\Form;
 
-    use Admin\Helper\SelectHelper;
+    use Admin\Helper\RelatedEntityHelper;
+    use Admin\Manager\UserManager;
     use Doctrine\ORM\EntityManager;
     use Zend\InputFilter\InputFilter;
 
@@ -39,7 +40,7 @@
                     array(
                         'name' => 'InArray',
                         'options' => array(
-                            'haystack' => SelectHelper::getUsersFilter($this->entity_manager),
+                            'haystack' => RelatedEntityHelper::createInputFilterDataArray($this->getUsers()),
                             'messages' => array(
                                 'notInArray' => 'Select right user',
                             ),
@@ -47,5 +48,12 @@
                     ),
                 ),
             ));
+        }
+
+        public function getUsers()
+        {
+            $user_manager = new UserManager($this->entity_manager);
+
+            return $user_manager->getActiveList();
         }
     }

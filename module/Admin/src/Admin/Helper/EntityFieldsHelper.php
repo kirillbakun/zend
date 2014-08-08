@@ -56,12 +56,19 @@
                             'display_name' => 'Active',
                             'position' => 2,
                         ),
-                        'name' => array(
-                            'name' => 'name',
+                        'login' => array(
+                            'name' => 'login',
                             'type' => 'text',
                             'in_list' => true,
-                            'display_name' => 'Name',
+                            'display_name' => 'Login',
                             'position' => 2,
+                        ),
+                        'email' => array(
+                            'name' => 'email',
+                            'type' => 'text',
+                            'in_list' => true,
+                            'display_name' => 'E-mail',
+                            'position' => 3,
                         ),
                     ),
                     'fk' => array(),
@@ -144,6 +151,9 @@
         {
             return (isset($entities_list[$table_name])) ? $entities_list[$table_name] : null;
         }
+
+        public static function getNotSortableColumns()
+        {}
 
         private static function getEntityData($entity_name)
         {

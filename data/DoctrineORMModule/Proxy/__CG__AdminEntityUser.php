@@ -94,10 +94,10 @@ class User extends \Admin\Entity\User implements \Doctrine\ORM\Proxy\Proxy
     public function __sleep()
     {
         if ($this->__isInitialized__) {
-            return array('__isInitialized__', '' . "\0" . 'Admin\\Entity\\User' . "\0" . 'id', '' . "\0" . 'Admin\\Entity\\User' . "\0" . 'isActive', '' . "\0" . 'Admin\\Entity\\User' . "\0" . 'name');
+            return array('__isInitialized__', '' . "\0" . 'Admin\\Entity\\User' . "\0" . 'id', '' . "\0" . 'Admin\\Entity\\User' . "\0" . 'isActive', '' . "\0" . 'Admin\\Entity\\User' . "\0" . 'login', '' . "\0" . 'Admin\\Entity\\User' . "\0" . 'email');
         }
 
-        return array('__isInitialized__', '' . "\0" . 'Admin\\Entity\\User' . "\0" . 'id', '' . "\0" . 'Admin\\Entity\\User' . "\0" . 'isActive', '' . "\0" . 'Admin\\Entity\\User' . "\0" . 'name');
+        return array('__isInitialized__', '' . "\0" . 'Admin\\Entity\\User' . "\0" . 'id', '' . "\0" . 'Admin\\Entity\\User' . "\0" . 'isActive', '' . "\0" . 'Admin\\Entity\\User' . "\0" . 'login', '' . "\0" . 'Admin\\Entity\\User' . "\0" . 'email');
     }
 
     /**
@@ -243,23 +243,45 @@ class User extends \Admin\Entity\User implements \Doctrine\ORM\Proxy\Proxy
     /**
      * {@inheritDoc}
      */
-    public function setName($name)
+    public function setLogin($login)
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setName', array($name));
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setLogin', array($login));
 
-        return parent::setName($name);
+        return parent::setLogin($login);
     }
 
     /**
      * {@inheritDoc}
      */
-    public function getName()
+    public function getLogin()
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getName', array());
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getLogin', array());
 
-        return parent::getName();
+        return parent::getLogin();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function setEmail($email)
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setEmail', array($email));
+
+        return parent::setEmail($email);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getEmail()
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getEmail', array());
+
+        return parent::getEmail();
     }
 
 }
