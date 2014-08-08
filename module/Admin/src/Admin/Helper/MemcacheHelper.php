@@ -7,7 +7,7 @@
          * @var \Memcache self::$memcache;
          */
 
-        private static $memcahce;
+        private static $memcache;
         private static $port = 11211;
         private static $host = 'localhost';
         private static $entities = array(
@@ -16,9 +16,9 @@
 
         private static function createMemcacheInstance()
         {
-            if(!self::$memcahce) {
-                self::$memcahce = new \Memcache();
-                self::$memcahce->connect(self::$host, self::$port);
+            if(!self::$memcache) {
+                self::$memcache = new \Memcache();
+                self::$memcache->connect(self::$host, self::$port);
             }
         }
 
@@ -27,7 +27,7 @@
             self::createMemcacheInstance();
 
             $key_hash = self::getKeyHashByParams($entity, $function, $params);
-            $data = self::$memcahce->get($key_hash);
+            $data = self::$memcache->get($key_hash);
             $is_data_valid = ($data && isset($data['created']) && $data['created'] && isset($data['value'])) ? true : false;
 
             if($is_data_valid) {
@@ -50,7 +50,7 @@
                 'created' => time(),
             );
 
-            return self::$memcahce->set($key_hash, $data);
+            return self::$memcache->set($key_hash, $data);
         }
 
         public static function removeItem($entity, $function = '', $params = array())
@@ -59,14 +59,14 @@
 
             $key_hash = self::getKeyHashByParams($entity, $function, $params);
 
-            return self::$memcahce->delete($key_hash);
+            return self::$memcache->delete($key_hash);
         }
 
         public static function flush()
         {
             self::createMemcacheInstance();
 
-            self::$memcahce->flush();
+            self::$memcache->flush();
 
             return true;
         }
@@ -94,7 +94,7 @@
         private static function getEntityUpdateTime($entity)
         {
             $key_string = self::getKeyHashByParams($entity);
-            $data = self::$memcahce->get($key_string);
+            $data = self::$memcache->get($key_string);
 
             return (isset($data['created']) && $data['created']) ? $data['created'] : 0;
         }
